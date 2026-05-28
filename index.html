@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1565C0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="HazCat">
+<meta name="application-name" content="HazCat">
+<meta name="description" content="HazCat — Hazard Category Field Reference for Oil & Gas Construction">
+<title>HazCat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1565C0;--blue-l:#1976D2;--blue-ll:#E3F2FD;--blue-lll:#BBDEFB;
+  --red:#C62828;--red-l:#E53935;--red-ll:#FFEBEE;--red-lll:#FFCDD2;
+  --orange:#E65100;--orange-l:#F57C00;--orange-ll:#FFF3E0;--orange-lll:#FFE0B2;
+  --green:#1B5E20;--green-l:#2E7D32;--green-ll:#E8F5E9;--green-lll:#C8E6C9;
+  --purple:#4A148C;--purple-l:#6A1B9A;--purple-ll:#F3E5F5;--purple-lll:#E1BEE7;
+  --teal:#004D40;--teal-l:#00695C;--teal-ll:#E0F2F1;--teal-lll:#B2DFDB;
+  --amber:#E65100;--amber-l:#FF6F00;--amber-ll:#FFFDE7;--amber-lll:#FFF9C4;
+  --pink:#880E4F;--pink-l:#AD1457;--pink-ll:#FCE4EC;--pink-lll:#F8BBD0;
+  --brown:#3E2723;--brown-l:#4E342E;--brown-ll:#EFEBE9;--brown-lll:#D7CCC8;
+  --grey:#212121;--grey-l:#424242;--grey-ll:#F5F5F5;--grey-lll:#EEEEEE;
+  --white:#FFFFFF;--bg:#F0F4F8;--surface:#FFFFFF;
+  --shadow:0 4px 16px rgba(0,0,0,0.12);--shadow-lg:0 8px 32px rgba(0,0,0,0.18);
+  --r:18px;--r-sm:12px;--r-lg:24px;
+  --font:'Nunito',sans-serif;--font-b:'Nunito Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--bg);}
+body{display:flex;flex-direction:column;}
+
+/* ── PAGES ── */
+.page{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);
+  transition:transform .32s cubic-bezier(.4,0,.2,1),opacity .32s;z-index:1;}
+.page.hidden{transform:translateX(100%);opacity:0;pointer-events:none;}
+.page.slide-left{transform:translateX(-40%);opacity:0;pointer-events:none;}
+
+/* ── HEADER ── */
+.hdr{background:var(--blue);color:#fff;padding:0;display:flex;align-items:stretch;
+  flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+.hdr-inner{display:flex;align-items:center;gap:12px;padding:14px 16px;width:100%;}
+.hdr-back{background:rgba(255,255,255,0.18);border:none;color:#fff;border-radius:50%;
+  width:40px;height:40px;font-size:22px;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:.15s;}
+.hdr-back:active{background:rgba(255,255,255,0.3);}
+.hdr-title{font-size:20px;font-weight:800;letter-spacing:-.3px;flex:1;}
+.hdr-sub{font-size:12px;opacity:.8;font-weight:600;}
+.hdr-icon{font-size:32px;flex-shrink:0;}
+.hdr-badge{background:rgba(255,255,255,0.22);border-radius:20px;padding:3px 10px;
+  font-size:11px;font-weight:700;margin-left:auto;}
+
+/* ── HOME PAGE ── */
+.home-hdr{background:linear-gradient(160deg,var(--blue) 0%,var(--blue-l) 60%,#1E88E5 100%);
+  color:#fff;padding:20px 16px 28px;flex-shrink:0;}
+.home-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.logo-badge{background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4);
+  border-radius:16px;padding:8px 14px;font-size:26px;font-weight:900;letter-spacing:-1px;
+  font-family:var(--font);}
+.logo-info{flex:1;}
+.logo-title{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+.logo-sub{font-size:12px;opacity:.8;font-weight:600;margin-top:2px;}
+.home-tagline{font-size:14px;opacity:.9;line-height:1.5;font-weight:600;}
+.home-stats{display:flex;gap:10px;margin-top:14px;}
+.home-stat{background:rgba(255,255,255,0.15);border-radius:var(--r-sm);padding:8px 12px;text-align:center;flex:1;}
+.home-stat .n{font-size:22px;font-weight:900;}
+.home-stat .l{font-size:10px;opacity:.8;font-weight:700;margin-top:1px;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:flex;background:var(--white);border-top:1px solid #E0E0E0;
+  flex-shrink:0;z-index:10;box-shadow:0 -2px 8px rgba(0,0,0,0.08);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:10px 4px 8px;background:none;border:none;cursor:pointer;gap:4px;
+  color:#757575;font-family:var(--font);transition:.15s;}
+.nav-btn .nav-icon{font-size:26px;line-height:1;}
+.nav-btn .nav-label{font-size:10px;font-weight:700;letter-spacing:.3px;}
+.nav-btn.active{color:var(--blue);}
+.nav-btn:active{background:#F5F5F5;}
+
+/* ── SCROLL AREA ── */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{padding:18px 16px 8px;font-size:12px;font-weight:800;color:#9E9E9E;
+  letter-spacing:1.2px;text-transform:uppercase;}
+
+/* ── CATEGORY FLOATING BUTTONS ── */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:8px 16px 20px;}
+.cat-btn{border:none;border-radius:var(--r);cursor:pointer;padding:0;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;
+  min-height:130px;position:relative;font-family:var(--font);}
+.cat-btn:active{transform:scale(.96);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.cat-btn .cb-icon{font-size:48px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));}
+.cat-btn .cb-name{font-size:14px;font-weight:800;line-height:1.2;text-align:center;padding:0 8px;}
+.cat-btn .cb-count{font-size:11px;font-weight:700;opacity:.75;margin-top:4px;}
+.cat-btn .cb-arrow{position:absolute;top:10px;right:12px;font-size:18px;opacity:.5;}
+.cat-btn.lsr{background:linear-gradient(145deg,#C62828,#E53935);color:#fff;}
+.cat-btn.physical{background:linear-gradient(145deg,#E65100,#F57C00);color:#fff;}
+.cat-btn.chemical{background:linear-gradient(145deg,#4A148C,#6A1B9A);color:#fff;}
+.cat-btn.process{background:linear-gradient(145deg,#1565C0,#1976D2);color:#fff;}
+.cat-btn.environ{background:linear-gradient(145deg,#1B5E20,#2E7D32);color:#fff;}
+.cat-btn.ergon{background:linear-gradient(145deg,#00695C,#00897B);color:#fff;}
+.cat-btn.bio{background:linear-gradient(145deg,#880E4F,#AD1457);color:#fff;}
+.cat-btn.psych{background:linear-gradient(145deg,#FF6F00,#FFA000);color:#fff;}
+
+/* ── DETAIL PAGE ── */
+.detail-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px;}
+
+/* ── SUBCATEGORY CARDS ── */
+.sub-card{background:var(--white);margin:10px 14px 0;border-radius:var(--r);
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);overflow:hidden;border:2px solid transparent;}
+.sub-card.open{border-color:var(--accent);}
+.sub-top{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;
+  background:var(--white);transition:background .15s;}
+.sub-top:active{background:#F5F5F5;}
+.sub-code{border-radius:8px;padding:4px 10px;font-size:12px;font-weight:800;
+  background:var(--accent);color:var(--white);font-family:var(--font);flex-shrink:0;}
+.sub-name{flex:1;font-size:15px;font-weight:700;line-height:1.3;color:var(--grey);}
+.sub-chev{font-size:20px;color:#BDBDBD;transition:transform .25s;flex-shrink:0;}
+.sub-card.open .sub-chev{transform:rotate(180deg);}
+.sub-body{display:none;padding:0 16px 16px;border-top:1px solid #F0F0F0;}
+.sub-card.open .sub-body{display:block;}
+
+.sub-desc{font-size:14px;color:#555;line-height:1.65;padding:12px 0 14px;}
+
+.pills-label{font-size:11px;font-weight:800;color:#9E9E9E;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:8px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.pill{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;
+  font-size:12.5px;font-weight:700;background:var(--accent-ll);color:var(--accent-text);
+  border:1.5px solid var(--accent-lll);}
+.pill::before{content:attr(data-i);font-size:16px;}
+
+.scenario-box{background:var(--accent-ll);border-left:4px solid var(--accent);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 14px;margin-bottom:10px;}
+.scenario-lbl{font-size:10px;font-weight:800;color:var(--accent);letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:5px;}
+.scenario-txt{font-size:13px;color:#444;line-height:1.65;}
+
+.trigger-box{background:var(--red-ll);border:1.5px solid var(--red-lll);
+  border-radius:var(--r-sm);padding:10px 14px;}
+.trigger-lbl{font-size:10px;font-weight:800;color:var(--red-l);letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:4px;}
+.trigger-txt{font-size:12.5px;color:#B71C1C;font-weight:600;line-height:1.5;}
+
+/* ── QUIZ PAGE ── */
+.quiz-wrap{padding:14px;}
+.quiz-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.quiz-bar-wrap{flex:1;height:6px;background:#E0E0E0;border-radius:3px;overflow:hidden;}
+.quiz-bar{height:100%;background:var(--blue);border-radius:3px;transition:width .4s;}
+.quiz-num{font-size:13px;font-weight:700;color:#9E9E9E;}
+.quiz-score-badge{background:var(--blue-ll);color:var(--blue);border-radius:20px;
+  padding:3px 12px;font-size:12px;font-weight:800;}
+
+.q-scenario{background:var(--blue-ll);border:2px solid var(--blue-lll);
+  border-radius:var(--r);padding:14px;margin-bottom:16px;}
+.q-scene-lbl{font-size:10px;font-weight:800;color:var(--blue);letter-spacing:1px;margin-bottom:6px;}
+.q-scene-txt{font-size:14px;color:#1A237E;line-height:1.6;font-weight:600;}
+
+.q-text{font-size:17px;font-weight:800;color:var(--grey);line-height:1.4;margin-bottom:16px;}
+
+.q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.q-opt{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r);
+  background:var(--white);border:2px solid #E0E0E0;cursor:pointer;transition:.15s;
+  font-family:var(--font);}
+.q-opt:active{background:#F5F5F5;}
+.q-opt .opt-key{width:34px;height:34px;border-radius:50%;background:#F5F5F5;
+  border:2px solid #E0E0E0;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#757575;flex-shrink:0;}
+.q-opt .opt-txt{font-size:14px;font-weight:700;color:var(--grey);line-height:1.35;flex:1;}
+.q-opt.correct{background:var(--green-ll);border-color:var(--green-l);}
+.q-opt.correct .opt-key{background:var(--green-l);border-color:var(--green-l);color:#fff;}
+.q-opt.wrong{background:var(--red-ll);border-color:var(--red-l);}
+.q-opt.wrong .opt-key{background:var(--red-l);border-color:var(--red-l);color:#fff;}
+
+.q-feedback{border-radius:var(--r);padding:14px;margin-bottom:14px;display:none;}
+.q-feedback.show-ok{display:block;background:var(--green-ll);border:2px solid var(--green-lll);}
+.q-feedback.show-bad{display:block;background:var(--orange-ll);border:2px solid var(--orange-lll);}
+.q-feedback-hd{font-size:14px;font-weight:800;margin-bottom:5px;}
+.q-feedback.show-ok .q-feedback-hd{color:var(--green-l);}
+.q-feedback.show-bad .q-feedback-hd{color:var(--orange-l);}
+.q-feedback-txt{font-size:13px;line-height:1.6;color:#444;}
+
+.q-next{width:100%;padding:16px;background:var(--blue);color:#fff;border:none;
+  border-radius:var(--r);font-size:16px;font-weight:800;cursor:pointer;font-family:var(--font);
+  display:none;transition:.15s;}
+.q-next.show{display:block;}
+.q-next:active{background:var(--blue-l);}
+
+.quiz-end{text-align:center;padding:30px 20px;}
+.quiz-end .big-icon{font-size:80px;margin-bottom:16px;}
+.quiz-end-title{font-size:26px;font-weight:900;color:var(--grey);margin-bottom:8px;}
+.quiz-end-score{font-size:18px;color:#555;margin-bottom:24px;}
+.quiz-end-msg{font-size:14px;color:#777;margin-bottom:28px;line-height:1.6;max-width:300px;margin-left:auto;margin-right:auto;}
+.btn-retry{padding:16px 40px;background:var(--blue);color:#fff;border:none;
+  border-radius:var(--r);font-size:16px;font-weight:800;cursor:pointer;font-family:var(--font);}
+
+/* ── SELECTOR / TREE ── */
+.tree-wrap{padding:14px;}
+.tree-q{font-size:19px;font-weight:900;color:var(--grey);line-height:1.35;margin-bottom:18px;}
+.tree-opts-list{display:flex;flex-direction:column;gap:10px;}
+.tree-opt{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r);
+  background:var(--white);border:2px solid #E0E0E0;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  transition:.15s;font-family:var(--font);}
+.tree-opt:active{background:#F5F5F5;transform:scale(.98);}
+.tree-opt .t-icon{font-size:32px;flex-shrink:0;}
+.tree-opt .t-txt{font-size:15px;font-weight:700;color:var(--grey);flex:1;line-height:1.35;}
+.tree-opt .t-arr{font-size:20px;color:#BDBDBD;}
+
+.tree-result-card{background:var(--white);border-radius:var(--r-lg);
+  box-shadow:var(--shadow-lg);padding:24px;margin:10px;text-align:center;
+  border:3px solid var(--accent);}
+.tree-result-icon{font-size:64px;margin-bottom:12px;}
+.tree-result-code{display:inline-block;background:var(--accent);color:#fff;
+  border-radius:20px;padding:4px 16px;font-size:13px;font-weight:800;margin-bottom:10px;}
+.tree-result-name{font-size:22px;font-weight:900;color:var(--grey);margin-bottom:12px;}
+.tree-result-action{background:var(--accent-ll);border-radius:var(--r-sm);padding:12px 16px;
+  font-size:14px;color:var(--accent-text);line-height:1.6;font-weight:600;text-align:left;margin-bottom:16px;}
+.tree-result-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.tree-btn{padding:12px 22px;border-radius:var(--r-sm);font-size:14px;font-weight:800;
+  cursor:pointer;border:none;font-family:var(--font);transition:.15s;}
+.tree-btn-primary{background:var(--accent);color:#fff;}
+.tree-btn-ghost{background:#F5F5F5;color:var(--grey);}
+
+.breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:4px;
+  padding:10px 14px 2px;font-size:12px;color:#9E9E9E;}
+.breadcrumb span{font-weight:700;color:#757575;}
+.breadcrumb .sep{color:#BDBDBD;}
+
+/* ── SEARCH ── */
+.search-bar{padding:12px 14px;position:sticky;top:0;background:var(--bg);z-index:5;}
+.search-input-wrap{position:relative;}
+.search-input{width:100%;padding:12px 16px 12px 44px;border-radius:var(--r);
+  border:2px solid #E0E0E0;background:var(--white);font-size:15px;font-family:var(--font);
+  font-weight:600;outline:none;color:var(--grey);}
+.search-input:focus{border-color:var(--blue);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:20px;}
+.search-results{padding:0 14px 20px;}
+.search-hit{background:var(--white);border-radius:var(--r-sm);padding:12px 14px;
+  margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);cursor:pointer;
+  border-left:4px solid var(--accent);display:flex;align-items:flex-start;gap:10px;transition:.15s;}
+.search-hit:active{background:#F5F5F5;}
+.hit-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.hit-content .hit-cat{font-size:11px;font-weight:800;color:#9E9E9E;letter-spacing:.5px;}
+.hit-content .hit-name{font-size:14px;font-weight:700;color:var(--grey);}
+.hit-content .hit-ex{font-size:12px;color:#757575;margin-top:2px;}
+.no-results{text-align:center;padding:40px 20px;color:#9E9E9E;}
+.no-results .nr-icon{font-size:48px;margin-bottom:12px;}
+.no-results .nr-txt{font-size:15px;font-weight:700;}
+
+/* ── INFO CARDS ON HOME ── */
+.info-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);
+  margin:0 14px 12px;padding:14px 16px;display:flex;align-items:center;gap:12px;
+  border-left:5px solid var(--blue);cursor:pointer;transition:.15s;}
+.info-card:active{background:#F5F5F5;}
+.info-card .ic-icon{font-size:32px;}
+.info-card .ic-body{flex:1;}
+.info-card .ic-title{font-size:15px;font-weight:800;color:var(--grey);}
+.info-card .ic-sub{font-size:12px;color:#757575;margin-top:2px;}
+.info-card .ic-arr{font-size:22px;color:#BDBDBD;}
+
+/* ── INSTALL BANNER ── */
+.install-banner{background:var(--green-ll);border:2px solid var(--green-lll);
+  border-radius:var(--r);margin:0 14px 12px;padding:12px 14px;display:none;
+  align-items:center;gap:12px;}
+.install-banner.visible{display:flex;}
+.ib-icon{font-size:28px;}
+.ib-text{flex:1;font-size:13px;color:var(--green);font-weight:700;line-height:1.4;}
+.ib-btn{background:var(--green-l);color:#fff;border:none;border-radius:var(--r-sm);
+  padding:8px 16px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font);}
+.ib-close{background:none;border:none;font-size:20px;color:#9E9E9E;cursor:pointer;}
+
+/* ── LSR HIGHLIGHT ── */
+.lsr-banner{background:linear-gradient(135deg,var(--red-l),#C62828);color:#fff;
+  margin:10px 14px 0;border-radius:var(--r);padding:14px 16px;}
+.lsr-banner-title{font-size:16px;font-weight:900;margin-bottom:4px;}
+.lsr-banner-sub{font-size:12px;opacity:.85;font-weight:600;line-height:1.5;}
+
+/* ── DETAIL PAGE HERO ── */
+.detail-hero{padding:16px 16px 20px;color:#fff;flex-shrink:0;}
+.detail-hero-icon{font-size:56px;margin-bottom:10px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));}
+.detail-hero-title{font-size:22px;font-weight:900;line-height:1.2;margin-bottom:4px;}
+.detail-hero-desc{font-size:13px;opacity:.85;line-height:1.5;font-weight:600;}
+.detail-hero-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.detail-chip{background:rgba(255,255,255,0.2);border-radius:20px;padding:4px 12px;
+  font-size:11px;font-weight:800;}
+
+@keyframes slideInRight{from{transform:translateX(100%);}to{transform:translateX(0);}}
+@keyframes slideOutLeft{from{transform:translateX(0);}to{transform:translateX(-40%);}}
+
+/* toast */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(40px);
+  background:#212121;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;
+  font-weight:700;opacity:0;transition:.3s;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ═══ HOME PAGE ═══ -->
+<div class="page" id="pg-home">
+  <div class="home-hdr">
+    <div class="home-logo">
+      <div class="logo-badge">HC</div>
+      <div class="logo-info">
+        <div class="logo-title">HazCat</div>
+        <div class="logo-sub">Hazard Category Field Reference</div>
+      </div>
+    </div>
+    <div class="home-tagline">Select the right hazard category — every observation, every time.</div>
+    <div class="home-stats">
+      <div class="home-stat"><div class="n">9</div><div class="l">LSRs</div></div>
+      <div class="home-stat"><div class="n">43</div><div class="l">Sub-cats</div></div>
+      <div class="home-stat"><div class="n">240+</div><div class="l">Examples</div></div>
+      <div class="home-stat"><div class="n">30</div><div class="l">Quiz Qs</div></div>
+    </div>
+  </div>
+  <div class="scroll" id="home-scroll">
+    <div class="install-banner" id="installBanner">
+      <div class="ib-icon">📲</div>
+      <div class="ib-text">Add to your home screen — works offline in the field!</div>
+      <button class="ib-btn" id="installBtn">Install</button>
+      <button class="ib-close" id="dismissInstall">✕</button>
+    </div>
+
+    <div class="sec-hdr">QUICK ACCESS</div>
+    <div class="info-card" onclick="openPage('pg-quiz')" style="border-left-color:#C62828;">
+      <div class="ic-icon">🧠</div>
+      <div class="ic-body"><div class="ic-title">Practice Quiz</div><div class="ic-sub">30 oil & gas scenarios — test your HazCat skills</div></div>
+      <div class="ic-arr">›</div>
+    </div>
+    <div class="info-card" onclick="openPage('pg-selector')" style="border-left-color:#1B5E20;">
+      <div class="ic-icon">🎯</div>
+      <div class="ic-body"><div class="ic-title">Category Selector</div><div class="ic-sub">Not sure which category? Answer 3 questions</div></div>
+      <div class="ic-arr">›</div>
+    </div>
+    <div class="info-card" onclick="openPage('pg-search')" style="border-left-color:#4A148C;">
+      <div class="ic-icon">🔍</div>
+      <div class="ic-body"><div class="ic-title">Search All Categories</div><div class="ic-sub">Search by keyword, scenario, or hazard</div></div>
+      <div class="ic-arr">›</div>
+    </div>
+
+    <div class="sec-hdr">HAZARD CATEGORIES</div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+  <div class="bottom-nav" id="home-nav">
+    <button class="nav-btn active" onclick="showHomeTab(0)"><div class="nav-icon">🏠</div><div class="nav-label">HOME</div></button>
+    <button class="nav-btn" onclick="openPage('pg-search')"><div class="nav-icon">🔍</div><div class="nav-label">SEARCH</div></button>
+    <button class="nav-btn" onclick="openPage('pg-selector')"><div class="nav-icon">🎯</div><div class="nav-label">SELECTOR</div></button>
+    <button class="nav-btn" onclick="openPage('pg-quiz')"><div class="nav-icon">🧠</div><div class="nav-label">QUIZ</div></button>
+  </div>
+</div>
+
+<!-- ═══ CATEGORY DETAIL PAGE ═══ -->
+<div class="page hidden" id="pg-detail">
+  <div class="hdr" id="detail-hdr" style="background:var(--accent);">
+    <div class="hdr-inner">
+      <button class="hdr-back" onclick="goBack()">‹</button>
+      <div style="flex:1;">
+        <div class="hdr-title" id="detail-hdr-title">Category</div>
+        <div class="hdr-sub" id="detail-hdr-code">CODE</div>
+      </div>
+      <div class="hdr-icon" id="detail-hdr-icon">⚡</div>
+    </div>
+  </div>
+  <div class="detail-scroll" id="detail-scroll">
+    <div class="detail-hero" id="detail-hero" style="background:var(--accent);">
+      <div class="detail-hero-icon" id="d-icon"></div>
+      <div class="detail-hero-title" id="d-title"></div>
+      <div class="detail-hero-desc" id="d-desc"></div>
+      <div class="detail-hero-chips" id="d-chips"></div>
+    </div>
+    <div id="detail-subs"></div>
+  </div>
+</div>
+
+<!-- ═══ QUIZ PAGE ═══ -->
+<div class="page hidden" id="pg-quiz">
+  <div class="hdr">
+    <div class="hdr-inner">
+      <button class="hdr-back" onclick="goBack()">‹</button>
+      <div style="flex:1;"><div class="hdr-title">Practice Quiz</div><div class="hdr-sub">Oil & Gas · Construction · </div></div>
+      <div class="hdr-icon">🧠</div>
+    </div>
+  </div>
+  <div class="scroll" id="quiz-scroll">
+    <div class="quiz-wrap" id="quizWrap"></div>
+  </div>
+</div>
+
+<!-- ═══ SELECTOR PAGE ═══ -->
+<div class="page hidden" id="pg-selector">
+  <div class="hdr">
+    <div class="hdr-inner">
+      <button class="hdr-back" onclick="goBack()">‹</button>
+      <div style="flex:1;"><div class="hdr-title">Category Selector</div><div class="hdr-sub">Answer questions to find your category</div></div>
+      <div class="hdr-icon">🎯</div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="breadcrumb" id="treeBreadcrumb"></div>
+    <div class="tree-wrap" id="treeWrap"></div>
+  </div>
+</div>
+
+<!-- ═══ SEARCH PAGE ═══ -->
+<div class="page hidden" id="pg-search">
+  <div class="hdr">
+    <div class="hdr-inner">
+      <button class="hdr-back" onclick="goBack()">‹</button>
+      <div style="flex:1;"><div class="hdr-title">Search</div><div class="hdr-sub">All hazard categories & examples</div></div>
+      <div class="hdr-icon">🔍</div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <div class="search-input-wrap">
+      <div class="search-icon">🔍</div>
+      <input class="search-input" id="searchInput" type="text" placeholder="H₂S, crane, silica, LOTO, excavation…" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+  <div class="scroll" id="searchResults">
+    <div class="no-results"><div class="nr-icon">💡</div><div class="nr-txt">Type to search all 240+ examples</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DATA
+══════════════════════════════════════════════════════════════ -->
+<script>
+const CATS = [
+{
+  code:"LSR", name:"Life-Saving Rules", icon:"🚫", btnClass:"lsr",
+  accent:"#C62828", accentL:"#FFEBEE", accentLL:"#FFCDD2", accentTxt:"#B71C1C",
+  desc:"PDO's 9 Life-Saving Rules are non-negotiable. Any breach is an immediate stop-work event — no exceptions, no workarounds.",
+  chips:["STOP WORK AUTHORITY","ZERO TOLERANCE","ESCALATE IMMEDIATELY"],
+  subs:[
+    {code:"LSR-1",name:"Work Authorisation — Permit to Work",
+     desc:"All non-routine and hazardous work MUST have a valid, signed Permit to Work (PTW) before any activity begins. PTWs cannot be verbal, backdated, or transferred between jobs.",
+     examples:[
+       {i:"📋",t:"Maintenance crew starts work on a valve before the isolation permit is issued"},
+       {i:"⛏️",t:"Excavation begins at a new location not covered by the original trench PTW"},
+       {i:"🔌",t:"Electrical work starts without a live-work permit despite voltage confirmed present"},
+       {i:"🏗️",t:"Crane mobilises and begins slinging load before critical lift permit is approved"},
+       {i:"🔥",t:"Hot work commences in an area where the gas test has expired (>30 minutes old)"},
+       {i:"🪛",t:"Piping flange broken open without a Line Breaking PTW"},
+       {i:"🌙",t:"Night shift continues work after the day-shift PTW has expired at 18:00"},
+       {i:"👷",t:"Subcontractor uses PTW issued to PDO contractor — cannot be reassigned"}
+     ],
+     scenario:"A piping crew breaks open a 6-inch process flange at night. The PTW expired at 18:00 and the new night-shift PTW was not yet issued. Permit holder assumed verbal approval from supervisor was sufficient.",
+     trigger:"Work of ANY hazardous nature commences without a current, signed PTW held physically at the worksite."},
+    {code:"LSR-2",name:"Energy Isolation — LOTO",
+     desc:"Any work on powered equipment must have all energy sources identified, isolated, locked out, and verified zero energy before work begins. This includes electrical, pneumatic, hydraulic, gravity, thermal, and chemical energy.",
+     examples:[
+       {i:"🔒",t:"Single LOTO lock on a motor with parallel feed from a backup power source"},
+       {i:"⚙️",t:"Supervisor removes LOTO padlock 'for a quick start' before technician is clear"},
+       {i:"💨",t:"Pneumatic actuator not depressurised before removal — stored energy released"},
+       {i:"🏋️",t:"Gravity-held crane boom not propped before hydraulic hose disconnection"},
+       {i:"🌡️",t:"Steam line not cooled before flange removed — scalding injury"},
+       {i:"⚡",t:"Electrician works on a panel assuming isolation — second feed from UPS active"},
+       {i:"🔧",t:"Mechanical seal replaced while pump is in standby — not fully isolated"},
+       {i:"🛢️",t:"Chemical dosing line broken without verifying residual pressure and chemical content"}
+     ],
+     scenario:"Maintenance team completes pump overhaul. Electrical LOTO removed and pump energised. Mechanical team has not yet refitted the coupling guard and is still in the vicinity.",
+     trigger:"Energy isolation not applied, incomplete, or removed before work is confirmed finished and all personnel are clear."},
+    {code:"LSR-3",name:"Confined Space Entry",
+     desc:"Any entry into a permit-required confined space without a valid CSE permit, atmospheric testing, dedicated standby person, and rescue equipment constitutes a Life-Saving Rule breach.",
+     examples:[
+       {i:"⛽",t:"Worker enters a crude oil storage tank without prior gas test — BTEX/H₂S risk"},
+       {i:"🕳️",t:"Crew enters a 2.5m deep inspection pit with no gas test — sour system nearby"},
+       {i:"💧",t:"Diver enters a pump sump without atmospheric test — oxygen depletion risk"},
+       {i:"🚨",t:"No standby person present during confined space entry — sole worker inside"},
+       {i:"😷",t:"SCBA not worn in IDLH atmosphere — H₂S detected at 15 ppm at entry point"},
+       {i:"🪜",t:"Rescue tripod and harness not staged before entry into a 4m deep manhole"},
+       {i:"🌡️",t:"Heat stress in a vessel — internal temp 52°C, no special entry controls"},
+       {i:"🔌",t:"Unventilated cable vault entered — CO₂ accumulation from battery room adjacent"}
+     ],
+     scenario:"Crew enters a buried inspection pit adjacent to a sour gas pipeline. No gas test performed, no standby, no rescue equipment. H₂S detected after entry at 20 ppm — incapacitation risk.",
+     trigger:"Entry into any enclosed or partially enclosed space with restricted access without a valid CSE permit, current atmospheric test, standby, and rescue provision."},
+    {code:"LSR-4",name:"Hot Work",
+     desc:"Any work producing heat, sparks, or flames in a classified area or within 15m of a hydrocarbon source requires a Hot Work Permit, current gas test, firewatch, and approved exclusion zone.",
+     examples:[
+       {i:"🔥",t:"Grinding sparks 4m from an open process drain connected to oily water sewer"},
+       {i:"⚡",t:"Welding in Zone-2 classified area without gas test or HOT WORK permit"},
+       {i:"🪚",t:"Angle grinding near LPG cylinders stored in workshop without segregation"},
+       {i:"🔴",t:"Cutting fuel supply lines without drain-down and purge verification"},
+       {i:"🎨",t:"Hot work and painting occurring on adjacent scaffold bays — solvent vapour meets sparks"},
+       {i:"💡",t:"Temporary lighting with non-ATEX fitting used in a classified hazardous zone"},
+       {i:"🌡️",t:"Gas test not repeated after 30 minutes during extended welding operation"},
+       {i:"👁️",t:"Firewatch leaves the area before welded material cools below ignition temperature"}
+     ],
+     scenario:"Welder working on a structural support. An open drain 5m away connects to the oily water system. No gas test performed, no firewatch designated. Wind direction changed during work.",
+     trigger:"Hot work within 15m of a hydrocarbon source, in a classified zone, or with gas test older than 30 minutes."},
+    {code:"LSR-5",name:"Safe Mechanical Lifting",
+     desc:"All mechanical lifts require a lift plan, qualified rigger and slinger, certified lifting equipment within inspection period, and an established exclusion zone. Personnel under suspended loads is a fatality risk.",
+     examples:[
+       {i:"🏗️",t:"Crane operating without a verified load chart at the required radius"},
+       {i:"👷",t:"Personnel standing within the swing radius of a crane during active lift"},
+       {i:"🪢",t:"Damaged sling with visible broken strands used beyond rated SWL"},
+       {i:"📐",t:"Two-leg chain sling at 20° angle — force multiplication exceeds marked SWL by 3×"},
+       {i:"🚛",t:"Forklift carries personnel on pallet forks — no man-riding cage"},
+       {i:"📦",t:"No tag line used — load spins and collides with scaffold during tanker lift"},
+       {i:"📋",t:"No lift plan for a complex multi-crane tandem lift of a process vessel"},
+       {i:"🔍",t:"Lifting beam with expired inspection sticker — last cert over 12 months old"}
+     ],
+     scenario:"60-tonne mobile crane lifts a 12m I-beam using a 5t soft sling with no spreader bar. Sling angle 25° creates a calculated force exceeding SWL by 2.3×. Banksman stands inside exclusion zone.",
+     trigger:"SWL exceeded, damaged equipment, no exclusion zone, no lift plan, personnel under load, or unqualified rigger/operator."},
+    {code:"LSR-6",name:"Line of Fire",
+     desc:"No one should position themselves where they could be struck by released energy — pressure, movement, gravity, or projectile — during any operation.",
+     examples:[
+       {i:"💥",t:"Worker stands in front of a flange face during pressurisation — blowout position"},
+       {i:"🔧",t:"Manual torque wrench kick direction oriented toward personnel"},
+       {i:"🚜",t:"Worker in the blind-spot reverse path of a heavy articulated dumper"},
+       {i:"🌊",t:"Personnel downstream of a high-pressure water jetting hose nozzle"},
+       {i:"⛏️",t:"Crew below an excavation spoil bank — collapse and engulfment risk"},
+       {i:"🪝",t:"Rigging crew in the bight of a wire rope under tension"},
+       {i:"🔩",t:"Valve actuator closing path occupied by a technician adjusting nearby fittings"},
+       {i:"🪨",t:"Blasting exclusion zone not established — personnel within fragmentation range"}
+     ],
+     scenario:"Hydrostatic test at 180 bar on a 10\" pipeline. Two workers seated on the pipe for shade — directly in the line of fire if any joint, fitting, or gauge fails.",
+     trigger:"Any person positioned in the trajectory of energy release — no matter how unlikely the release seems."},
+    {code:"LSR-7",name:"Driving and Journey Management",
+     desc:"All vehicle journeys must be planned, drivers authorised, vehicles roadworthy, and PDO driving standards observed. Fatigue, speed, mobile phone use, and seatbelt non-compliance are absolute prohibitions.",
+     examples:[
+       {i:"🚗",t:"Driver on mobile phone observed at 80 kph on site access road"},
+       {i:"🏎️",t:"Light vehicle observed at 68 kph in a 50 kph posted zone"},
+       {i:"😴",t:"Driver shows signs of fatigue — day 19 of consecutive 12-hr rotating shifts"},
+       {i:"🪑",t:"Front and rear passengers observed without seatbelts on journey to wellsite"},
+       {i:"🌙",t:"Single-vehicle journey authorised after dark without Journey Management Plan"},
+       {i:"🚚",t:"Heavy vehicle brake fade incident on graded haul road — no pre-trip inspection done"},
+       {i:"🌧️",t:"No stand-down during sandstorm — visibility <50m, convoy continues"},
+       {i:"👥",t:"More passengers than authorised seating capacity transported in crew bus"}
+     ],
+     scenario:"Night convoy from camp to wellsite. Lead vehicle driver unresponsive on radio. Journey manager not notified. Vehicle found 2km off route — driver asleep at wheel.",
+     trigger:"Speeding, mobile phone use, no seatbelt, fatigued driving, journey without plan, or unauthorised night travel."},
+    {code:"LSR-8",name:"Bypassing Safety Controls",
+     desc:"Defeating, removing, or disabling any engineered or administrative safety control is an absolute Life-Saving Rule breach. This includes PSVs, interlocks, fire and gas systems, guards, and trip devices.",
+     examples:[
+       {i:"🔧",t:"Jumper wire across pressure safety valve (PSV) to prevent trips during start-up"},
+       {i:"🚨",t:"Fire and gas detector isolated with a bypass jumper — not logged or managed"},
+       {i:"🏭",t:"Emergency Shutdown (ESD) system bypassed during commissioning without deviation permit"},
+       {i:"🛡️",t:"Machine guard removed from rotating pump and not replaced after greasing"},
+       {i:"🔔",t:"Smoke detector taped over during hot work — fire detection disabled"},
+       {i:"⚙️",t:"Compressor high-temperature trip defeated so unit can run to deadline"},
+       {i:"🪜",t:"Safety cage on an aerial work platform removed 'for easier access'"},
+       {i:"🔒",t:"Gate interlock on a live switchroom bypassed using wire loop"}
+     ],
+     scenario:"Operator bypasses the high-high pressure trip on a separator to avoid production shutdown. 45 minutes later, relief valve lifts — the bypass prevented the trip before design pressure was reached.",
+     trigger:"Any defeat of an engineered protection system — temporary or permanent — without a formal Management of Change (MOC) and deviation permit."},
+    {code:"LSR-9",name:"Drug and Alcohol Free Workplace",
+     desc:"No person under the influence of drugs or alcohol may enter the worksite or operate any equipment. Random and cause-based testing applies to all personnel.",
+     examples:[
+       {i:"🍺",t:"Worker reported smelling of alcohol at morning muster — not tested, allowed on site"},
+       {i:"💊",t:"Operator on prescribed sedative medication operating a crane without medical review"},
+       {i:"🚗",t:"Driver involved in near-miss — no drug and alcohol test initiated post-incident"},
+       {i:"😵",t:"Worker showing signs of impairment — dilated pupils, slurred speech, unsteady gait"},
+       {i:"🧪",t:"Random D&A test result refused by contractor employee — sent off site"},
+       {i:"💉",t:"Medic discovers injectable substance in worker's accommodation locker"},
+       {i:"🏥",t:"Prescription medication not declared on medical form — affects fitness for duty"},
+       {i:"📋",t:"Post-incident D&A testing delayed >2 hours — chain of custody compromised"}
+     ],
+     scenario:"Worker at start of night shift shows slurred speech and glassy eyes. Supervisor does not conduct cause-based D&A test citing 'no time'. Worker operates a forklift for 4 hours.",
+     trigger:"Any suspicion of impairment, refusal to test, undisclosed medication, or incident without D&A test."}
+  ]
+},
+{
+  code:"PHY", name:"Physical Hazards", icon:"⚡", btnClass:"physical",
+  accent:"#E65100", accentL:"#FFF3E0", accentLL:"#FFE0B2", accentTxt:"#BF360C",
+  desc:"Physical hazards are the most commonly observed category in construction and oil & gas. They include energy, forces, and environmental conditions that can cause immediate injury.",
+  chips:["MOST COMMON","CONSTRUCTION","OPERATIONS"],
+  subs:[
+    {code:"P2",name:"Line of Fire — Physical",
+     desc:"Positioning of a person in the path of any released energy, moving object, or collapsing material.",
+     examples:[
+       {i:"💥",t:"Worker in pressurised hose blast path during hydro test at wellhead"},
+       {i:"🚜",t:"Personnel in swing radius of 50-tonne excavator during earthworks"},
+       {i:"⛏️",t:"Crew below overburden spoil pile — undercutting causing collapse risk"},
+       {i:"🌊",t:"Downstream of high-pressure water jetter during pipe cleaning"},
+       {i:"🪨",t:"Workers within blasting exclusion zone during quarrying operations"},
+       {i:"🏗️",t:"Personnel under suspended load being repositioned by tower crane"}
+     ],
+     scenario:"During pipeline pre-commissioning, a 8\" nitrogen test at 100 bar. Engineer stands adjacent to a compression fitting to check for leaks by sound — directly in the line of fire.",
+     trigger:"Person positioned where any energy release could strike them, regardless of perceived likelihood."},
+    {code:"P3",name:"Working at Height",
+     desc:"Any work where a person could fall 1.8m or more, or fall onto hazards at a lower level. Requires collective protection first, then PPE as last resort.",
+     examples:[
+       {i:"🪜",t:"Scaffold without toe boards at 3m elevation — tools can fall below"},
+       {i:"🏗️",t:"Ironworker on structural steel without double-lanyard 100% tie-off"},
+       {i:"🛢️",t:"Worker on top of road tanker without harness and anchor point"},
+       {i:"🌉",t:"Open floor penetration 600mm wide — no edge protection or cover"},
+       {i:"🪟",t:"Painter on suspended access platform without two-point anchorage"},
+       {i:"🔭",t:"Boom lift operator outside basket — leaning over guard rail to reach fitting"}
+     ],
+     scenario:"Scaffolder dismantling tube-and-coupler scaffold at 4m. Moving between boards without harness — 1.5m from an unguarded leading edge. No rescue plan in place.",
+     trigger:"Any work at ≥1.8m without verified edge protection AND personal fall arrest system. Both required."},
+    {code:"P4",name:"Dropped Objects",
+     desc:"Any object at elevation that could become airborne — unsecured tools, loose materials, or unstable scaffold components.",
+     examples:[
+       {i:"🔧",t:"Open-end spanner left on grating 4m above active work area below"},
+       {i:"🪛",t:"Scaffold board with a split — risk of progressive failure and material drop"},
+       {i:"🔩",t:"Loose nut on a valve manifold 3m above walkway"},
+       {i:"🪝",t:"Tool bag not tethered during aerial work platform operation"},
+       {i:"🏗️",t:"Concrete formwork debris not cleared from scaffold before work below"},
+       {i:"🎵",t:"Rivet gun air hose not lanyard-attached when used at height over personnel"}
+     ],
+     scenario:"Instrument technician working on a valve at 5m elevation leaves a shifting spanner on the grating. Below, a cable pulling crew is working. Spanner falls — misses by 0.5m.",
+     trigger:"Any object above a work zone that is unsecured, left unattended, or on an unstable surface."},
+    {code:"P5",name:"Sharp Edges & Lacerations",
+     desc:"Exposed cut metals, broken glass, rebar, and burred pipe ends that can cause cuts from incidental contact.",
+     examples:[
+       {i:"🔩",t:"Rebar ends without mushroom caps on a 500m civil works site"},
+       {i:"🪗",t:"Cut pipe burr edge on a DN200 stainless spool — not dressed before handling"},
+       {i:"💔",t:"Broken glass from site office window not barricaded after breakage"},
+       {i:"🔩",t:"Sheet metal roofing with exposed razor-cut edges on scaffold access route"},
+       {i:"🪛",t:"Fish plate bolts with sheared threads in congested access walkway"}
+     ],
+     scenario:"Workers handle freshly cut 6\" stainless pipe without gloves. Angle grinder left a razor-sharp burr the full circumference of the pipe. Two lacerations requiring stitching.",
+     trigger:"Any cut, fractured, or ground metal/material surface not dressed, capped, or guarded."},
+    {code:"P8",name:"Access & Egress",
+     desc:"Any route of entry or exit that is unguarded, deficient, or creates a secondary hazard to reach the work area.",
+     examples:[
+       {i:"🪜",t:"Only access to a 3m deep trench is a vertical concrete wall — no ladder"},
+       {i:"🚪",t:"Single egress route blocked by parked material delivery truck"},
+       {i:"🌉",t:"Walkway over live process piping without handrails — 0.8m above pipe rack"},
+       {i:"🏗️",t:"Access hatch open and unmarked on a process equipment skid"},
+       {i:"🔑",t:"Emergency exit locked — requires key that is not available during emergency drill"},
+       {i:"📦",t:"Material stacked blocking fire exit corridor in temporary warehouse"}
+     ],
+     scenario:"Workers enter a 2.5m deep excavation via a wooden ladder leaned against the wall — not tied, 2 rungs short, and rated for 120kg for a crew of 5.",
+     trigger:"Any access/egress route missing guarding, handrails, adequate lighting, or viable emergency exit."},
+    {code:"P9",name:"Slips, Trips & Falls (Same Level)",
+     desc:"Obstructions, spills, uneven ground, and wet surfaces creating a same-level fall risk.",
+     examples:[
+       {i:"🛢️",t:"Oil puddle from leaking generator spreading across access road"},
+       {i:"🌧️",t:"Hoses running across pedestrian walkway without protective ramp"},
+       {i:"🏗️",t:"Mud tracked from excavation onto staircase — no anti-slip mat"},
+       {i:"💡",t:"Uneven terrain near active trench — no lighting or hazard marking"},
+       {i:"🔌",t:"Electrical cable tray at ground level crossing main access route"},
+       {i:"🪚",t:"Wood shavings accumulated on workshop floor — slip risk especially when wet"}
+     ],
+     scenario:"Pre-dawn. Concrete pump supply hoses run across the main site road. Arriving workers trip over the 4\" hose in the dark. Three falls — one fractured wrist.",
+     trigger:"Any spill, obstruction, or surface defect in a pedestrian transit area regardless of shift or lighting conditions."},
+    {code:"P10",name:"Reckless / Unsafe Driving",
+     desc:"Vehicle movement that violates the site traffic management plan, creates pedestrian risk, or constitutes a Life-Saving Rule breach.",
+     examples:[
+       {i:"🚗",t:"Pickup truck observed at 58 kph in 30 kph construction zone"},
+       {i:"📱",t:"Crane operator using mobile phone while manoeuvring heavy lift vehicle"},
+       {i:"🔙",t:"Excavator reversing without banksman in a blind-spot area"},
+       {i:"🪑",t:"Crew bus rear passengers without seatbelts on a 60 kph desert road"},
+       {i:"🚜",t:"Loader bucket carrying a person to the second floor of a building under construction"},
+       {i:"⛽",t:"Diesel generator refuelled while running — fire and spillage risk"}
+     ],
+     scenario:"Site pickup truck passing the main gate at 55 kph. Speed gun confirms 55 in a 30 zone. Gravel spray injures a worker on the footpath. Driver claims 'no signage at this section'.",
+     trigger:"Speed violation, no seatbelt, mobile phone use, reversing without banksman, or pedestrian-vehicle conflict."},
+    {code:"P11",name:"Fire & Explosion",
+     desc:"Ignition sources in proximity to flammable materials, accumulated vapour, or combustible dust.",
+     examples:[
+       {i:"🔥",t:"Oily rags in an unventilated closed bin — spontaneous combustion risk"},
+       {i:"⚡",t:"Electrical panel open in a dusty classified area — arcing risk"},
+       {i:"🚬",t:"Smoking within 15m of a fuel storage bund — designated area not enforced"},
+       {i:"🪣",t:"LPG cylinders stored inside an enclosed workshop — oxygen depletion and explosion risk"},
+       {i:"🌋",t:"Flammable solvent painting in module while welding continues 10m away"},
+       {i:"💥",t:"Hydrogen generated from battery charging in an unventilated store room"}
+     ],
+     scenario:"Painting (solvent-based coating) and structural welding running simultaneously in adjacent scaffold bays of a pipe rack module. Firewatch not present for either task.",
+     trigger:"Ignition source within the lower explosive limit (LEL) of any flammable material, or inadequate firewatch."},
+    {code:"P13",name:"High Pressure Systems",
+     desc:"Pressurised systems where blowout, surge, or leak could cause injury — including pneumatic, hydraulic, and steam systems.",
+     examples:[
+       {i:"💨",t:"Pneumatic test without verified relief path — gauge on wrong side of isolation"},
+       {i:"🌊",t:"Flushing hose not pressure-rated for the system being flushed"},
+       {i:"🤚",t:"Hand on a pressurised fitting during hydrostatic test — direct contact prohibited"},
+       {i:"🔌",t:"Nitrogen test with no secondary bleed valve — cannot safely depressurise"},
+       {i:"🌡️",t:"Steam valve opened too quickly — water hammer risk in condensate return"},
+       {i:"🔧",t:"Compression fitting used in a high-vibration pneumatic line — rated for static only"}
+     ],
+     scenario:"Commissioning: 6\" line nitrogen test at 130 bar. Pressure gauge is upstream of a closed valve. Downstream pressure unknown. Inspector taps the line by hand to detect leaks.",
+     trigger:"Pressurised system operation without verified relief, bleed, and monitoring provisions for all segments."},
+    {code:"P14",name:"Poor Illumination",
+     desc:"Inadequate lighting creating inability to identify hazards, surfaces, tools, or moving objects during any work activity.",
+     examples:[
+       {i:"🌙",t:"Night trenching with only excavator headlights — deep shadows in trench"},
+       {i:"🔦",t:"Welding at night without task lighting — bead visibility poor, burn-through risk"},
+       {i:"🚧",t:"Traffic flagger not visible in dusty haze — no reflective vest or wand light"},
+       {i:"🪟",t:"Floodlight aimed incorrectly — creates glare shadows not illumination"},
+       {i:"🕳️",t:"Manhole inspection without personal torch — 3m depth with zero lighting"}
+     ],
+     scenario:"Night excavation for water main at road crossing. Only lighting is excavator work lamps creating hard shadows. Labourers in the 3m trench cannot see the pipe alignment or exposed cables.",
+     trigger:"Any task where the observer cannot clearly identify hands, tools, or hazards due to lighting deficiency."},
+    {code:"P17",name:"Rotating & Moving Machinery",
+     desc:"Exposed moving parts of machinery that can entangle, crush, or strike personnel during operation or maintenance.",
+     examples:[
+       {i:"⚙️",t:"Pump coupling guard left off after greasing — flexible coupling exposed at 1500 rpm"},
+       {i:"🔩",t:"V-belt drive of site generator open during servicing — belt running unguarded"},
+       {i:"🪚",t:"Concrete mixer drum accessible while motor energised"},
+       {i:"🌀",t:"Fan blade unguarded during cooling system commissioning test"},
+       {i:"⚡",t:"Lathe operator reaches across a running chuck without stopping the machine"}
+     ],
+     scenario:"After bearing replacement on a centrifugal pump, the flexible coupling cover is left on the ground beside the running pump. The coupling rotates at 2900 rpm at head height.",
+     trigger:"Any rotating or reciprocating machinery component within reach of personnel without a fixed guarding or interlock."},
+    {code:"P19",name:"Congested Work Areas",
+     desc:"Insufficient space for planned activities without creating collision, access restriction, or emergency egress risk.",
+     examples:[
+       {i:"🏗️",t:"Crane and excavator operating simultaneously within 10m radius on a congested site"},
+       {i:"🌀",t:"Two welding sets in a 6×6m unventilated skid room — CO and fume accumulation"},
+       {i:"🚪",t:"Three subcontractors sharing one egress route from a live electrical room"},
+       {i:"🪝",t:"Pipe spool assembly in space too small — spool swings and contacts live cables"},
+       {i:"🔴",t:"SIMOPS: crane lifts over an active dig area — no coordination between teams"}
+     ],
+     scenario:"Civil, electrical, and mechanical contractors working simultaneously in a 10×10m process module. One access/egress point. Crane lifts over the module. No SIMOPS plan.",
+     trigger:"Space insufficient for planned tasks creating collision, egress, or emergency response risk."},
+    {code:"P20",name:"Poor Housekeeping",
+     desc:"Waste, disorganised materials, and accumulations creating secondary hazards to personnel or operations.",
+     examples:[
+       {i:"🪵",t:"Formwork timber with exposed nails scattered across active work face"},
+       {i:"🗑️",t:"Combustible waste bin overflowing — adjacent to hot work area"},
+       {i:"🌧️",t:"Mud from excavation tracked across concrete access road — slip hazard"},
+       {i:"🔩",t:"Cut wire lengths on scaffolding boards above active work area"},
+       {i:"🛢️",t:"Chemical drums stored without bund on bare earth — surface contamination risk"},
+       {i:"🧴",t:"Aerosol cans left on hot surface in direct sunlight — overpressure and rupture"}
+     ],
+     scenario:"End of shift. Civil crew leaves cut rebar, form oil drums, and timber scraps across the work face. Night concrete pour begins without housekeeping inspection.",
+     trigger:"Unsecured material, waste accumulation, or disorganised storage that creates any secondary hazard."}
+  ]
+},
+{
+  code:"CHEM", name:"Chemical Hazards", icon:"🧪", btnClass:"chemical",
+  accent:"#4A148C", accentL:"#F3E5F5", accentLL:"#E1BEE7", accentTxt:"#311B92",
+  desc:"Chemical hazards arise from exposure to harmful substances via inhalation, skin contact, or ingestion. Critical in pipeline, process, and maintenance activities.",
+  chips:["INHALATION","SKIN CONTACT","INGESTION"],
+  subs:[
+    {code:"C1",name:"Toxic Gases & Chemicals",
+     desc:"Substances with acute toxicity that can cause injury or death at relatively low concentrations. H₂S is the primary risk in PDO operations.",
+     examples:[
+       {i:"☠️",t:"H₂S at 12 ppm during tank gauging with open hatch — worker without gas monitor"},
+       {i:"🌬️",t:"BTEX vapour released during manual sampling of crude oil storage tank"},
+       {i:"❄️",t:"Ammonia release from refrigeration system during condenser servicing"},
+       {i:"🔬",t:"Mercury vapour from natural gas stream — manual gauge contaminated"},
+       {i:"🌋",t:"Hydrogen cyanide risk during gold catalyst bed regeneration in refinery"},
+       {i:"🌡️",t:"Carbon monoxide accumulation from diesel generator in enclosed genset room"},
+       {i:"🧪",t:"Chlorine dioxide exposure during water treatment plant dosing system maintenance"}
+     ],
+     scenario:"Worker gauging a crude oil tank. Open hatch, downwind position. Gas monitor battery flat — not checked before entry. H₂S spikes to 15 ppm as tank breathing increases in afternoon heat.",
+     trigger:"Any toxic gas or liquid handling without confirmed atmospheric monitoring, calibrated detector, and PPE verified appropriate for the substance."},
+    {code:"C3",name:"Carcinogens, Mutagens & Reproductive Toxins (CMR)",
+     desc:"Substances proven or suspected to cause cancer, genetic damage, or reproductive harm. Requires specific exposure controls — generic dust masks are NOT adequate.",
+     examples:[
+       {i:"🏗️",t:"Concrete saw-cutting without water suppression or FFP3 — crystalline silica (Group 1 carcinogen)"},
+       {i:"🔬",t:"Benzene exposure during tank sampling without closed-loop sampler and airline respirator"},
+       {i:"🏚️",t:"Asbestos fibres released during old insulation removal — lagging on pre-1990 piping"},
+       {i:"🎨",t:"Chromate-based primer spray in open area — Cr(VI) confirmed carcinogen"},
+       {i:"🌿",t:"PAH (polycyclic aromatic hydrocarbons) exposure during hot bitumen road repair"},
+       {i:"🔩",t:"Nickel fume from stainless steel TIG welding without LEV — 8hr exposure limit exceeded"}
+     ],
+     scenario:"Civil crew cutting reinforced concrete slabs. No water suppression on the saw blade, no extraction unit, no FFP3 respirators. Silica dust cloud drifts 80m — past 3 work areas.",
+     trigger:"Crystalline silica, asbestos, benzene, Cr(VI), nickel compounds, or PAH — select C3, not just PPE-related. The substance is the primary hazard."},
+    {code:"C5",name:"Explosive & Reactive Chemicals",
+     desc:"Substances that can detonate, ignite spontaneously, or react violently with common materials including air, water, or lubricants.",
+     examples:[
+       {i:"💥",t:"Oxygen line valve stem contaminated with lubricating oil — O₂ enriched + hydrocarbon = explosion"},
+       {i:"🧪",t:"Acetylene cylinder stored on its side — acetone destabilisation risk"},
+       {i:"🌡️",t:"Organic peroxide stored without refrigeration — decomposition and fire"},
+       {i:"🧴",t:"Bleach mixed with ammonia-based cleaner in confined space — chloramine gas"},
+       {i:"🔬",t:"Sodium azide in airbag propellant — explosive during disposal if overheated"}
+     ],
+     scenario:"Maintenance uses an oxygen supply to blow clear a hydraulic service fitting — contaminating it with residual oil. O₂-enriched atmosphere plus hydrocarbon equals explosive atmosphere.",
+     trigger:"Storage, handling, or mixing of reactive chemicals without verified compatibility matrix and segregation."},
+    {code:"C8",name:"Sensitisers & Allergens",
+     desc:"Substances that can cause sensitisation — after which even tiny exposures trigger severe allergic reactions. Once sensitised, exposure must be eliminated entirely.",
+     examples:[
+       {i:"🖐️",t:"Epoxy resin skin contact during pipe joint coating — no gloves on application crew"},
+       {i:"😷",t:"Isocyanate vapour from two-part polyurethane foam — no supplied air respirator"},
+       {i:"🔩",t:"Chrome-6 in stainless filler rod grinding fume — dermatitis and sensitisation"},
+       {i:"🧴",t:"Prolonged contact with water-miscible cutting fluid (soluble oil) — occupational dermatitis"},
+       {i:"🌿",t:"Latex gloves used by personnel with confirmed latex sensitisation"}
+     ],
+     scenario:"Painter applies epoxy primer in a confined module. No forced ventilation, no supplied air. Develops dermatitis after 3 days — isocyanate sensitisation confirmed. Now permanently sensitised.",
+     trigger:"First or repeated exposure to epoxy resins, isocyanates, chromates, or confirmed sensitisers without engineering controls as primary protection."}
+  ]
+},
+{
+  code:"PS", name:"Process-Specific", icon:"🔧", btnClass:"process",
+  accent:"#1565C0", accentL:"#E3F2FD", accentLL:"#BBDEFB", accentTxt:"#0D47A1",
+  desc:"Hazards specific to oil & gas and process operations. Frequently underused — many incidents involving plant and process operations are wrongly categorised as physical hazards.",
+  chips:["OIL & GAS","PROCESS PLANT","PIPELINES"],
+  subs:[
+    {code:"PS2",name:"Loss of Containment",
+     desc:"Any unintended release of a process fluid or gas from its containment system — liquid, vapour, or aerosol.",
+     examples:[
+       {i:"💧",t:"Flange joint weeping during commissioning at 50 bar — sour condensate drip onto hot surface"},
+       {i:"🌊",t:"Flexible injection hose failure on methanol inhibitor system — ignitable liquid release"},
+       {i:"🌡️",t:"Valve packing gland leak on a live natural gas line — vapour cloud potential"},
+       {i:"🔩",t:"Corrosion pinhole on 8\" crude line — dripping onto bare insulated pipe below"},
+       {i:"🛢️",t:"Overfill of bunded diesel storage tank — fuel enters secondary containment drain"},
+       {i:"❄️",t:"Cryogenic nitrogen vent — uncontrolled cold asphyxiation risk in low wind"}
+     ],
+     scenario:"Instrument engineer notices a slow drip from a DN80 impulse line fitting. Sour condensate at 85°C. Drip falls onto bare insulation pipe below — ignition risk. Flow confirmed by pressure reading.",
+     trigger:"Any unintended release of hazardous fluid — isolate source, check ignition risks, notify operations control."},
+    {code:"PS3",name:"SIMOPS — Simultaneous Operations",
+     desc:"Activities whose uncoordinated combination creates a compound hazard not covered by individual permits. Requires a SIMOPS study before commencement.",
+     examples:[
+       {i:"🏗️",t:"Crane operating over active process area during live production operations"},
+       {i:"🔥",t:"Hot tapping a live gas line while simultaneous nitrogen test on connected header"},
+       {i:"🎨",t:"Painting inside module while insulation blowing in progress overhead — solvent + dust"},
+       {i:"⛏️",t:"Two excavations converging at a buried cable junction — wall collapse risk"},
+       {i:"🌀",t:"Simultaneous pressure testing and scaffold erection in same pipe rack"},
+       {i:"🚨",t:"Chemical injection and third-party inspection of connected vessel — no interface plan"}
+     ],
+     scenario:"Hot tapping a live 6\" gas line. 40m away, a contractor nitrogen tests a new spool connected to the same header. No communication. Pressure changes unmonitored — test pressure exceeds operating limit.",
+     trigger:"Any combination of activities on connected systems or in the same area — stop and convene a SIMOPS review with all permit holders."},
+    {code:"PS4",name:"Human Factors",
+     desc:"Root cause is human — communication failure, fatigue, cognitive error, or procedure deviation not captured by another specific category. The most under-reported high-consequence category.",
+     examples:[
+       {i:"🗣️",t:"TRIC conducted in English — 4 of 7 workers do not understand English"},
+       {i:"📝",t:"Night shift received written handover only — no verbal briefing on active PTW changes"},
+       {i:"🧠",t:"Complex multi-step isolation done from memory — isolation register not consulted"},
+       {i:"😴",t:"Worker on day 16 of consecutive 12-hour shifts — cognitive impairment"},
+       {i:"📋",t:"Observation form filled in retrospectively at end of shift — details inaccurate"},
+       {i:"🔄",t:"Task changed mid-shift without re-briefing crew — new hazards not assessed"}
+     ],
+     scenario:"Permit holder briefs the excavation crew in English about buried cable routes. 3 of 5 workers speak only Arabic. Cable routes not marked on the ground. Excavator strikes a HV cable.",
+     trigger:"Communication failure, language barrier, error, fatigue indicator, or procedure deviation — when no other single category captures the root cause better."},
+    {code:"PS5",name:"Natural Hazards",
+     desc:"Meteorological and environmental conditions that exceed the assumptions in the job risk assessment — temperature, wind, lightning, flood, or dust.",
+     examples:[
+       {i:"☀️",t:"Air temp 48°C, steel structure surface temp 72°C — unshaded workers, no heat plan"},
+       {i:"🌪️",t:"Sandstorm with <50m visibility — crane not stood down, load movement continues"},
+       {i:"⚡",t:"Lightning within 10km — electrical storm warning not actioned, workers on structure"},
+       {i:"🌊",t:"Flash flood potential in active wadi crossing — excavation risk to crew"},
+       {i:"💨",t:"Wind speed 38 kph during scaffold erection — exceeds crane and MEWP limits"},
+       {i:"🌡️",t:"WBGT >33°C — no work-rest schedule, no water station within 50m"}
+     ],
+     scenario:"July, 48°C. Crew working on a black-painted pipeline in direct sunlight. No shade tent. No work-rest schedule. Water 200m away. Two workers show signs of heat exhaustion at 10:30.",
+     trigger:"Conditions exceed environmental limits in the JRA — stand down, reassess, and replan."},
+    {code:"PS6",name:"Energy Isolation — LOTO (Process)",
+     desc:"Isolation failures in process systems with complex multi-source energy paths — distinct from simple LOTO in that it involves process fluids, interlocked systems, or multi-party coordination.",
+     examples:[
+       {i:"🔒",t:"Double-block-and-bleed not confirmed — single valve isolation only for vessel entry"},
+       {i:"🔌",t:"Parallel feed from emergency bus not identified in the isolation register"},
+       {i:"🛢️",t:"Drain valve not opened to confirm isolation before line breaking"},
+       {i:"⚙️",t:"Hydraulic actuator not manually locked — can stroke on ESD logic signal"},
+       {i:"🌡️",t:"Heat tracing energised during maintenance on traced line — burn risk"}
+     ],
+     scenario:"Maintenance breaks open a DN150 process valve for seat replacement. Single gate valve isolation. No bleed valve opened. Line contains sour condensate at residual pressure — spray on break.",
+     trigger:"Any process isolation without: double block, bleed to atmosphere confirmed, and energy verification across ALL sources."}
+  ]
+},
+{
+  code:"ENV", name:"Environmental", icon:"🌍", btnClass:"environ",
+  accent:"#1B5E20", accentL:"#E8F5E9", accentLL:"#C8E6C9", accentTxt:"#1B5E20",
+  desc:"Hazards that could cause harm to soil, water, air, or community. Environmental observations are systematically under-reported — every spill and dust event should be logged.",
+  chips:["SPILLS","DUST","WASTE","COMMUNITY"],
+  subs:[
+    {code:"EN1",name:"Soil & Water Contamination",
+     desc:"Any uncontrolled release of liquid to soil, surface water, or groundwater — including hydrocarbons, chemicals, concrete washout, and brine.",
+     examples:[
+       {i:"🛢️",t:"Diesel drip from generator onto unlined compacted soil — no spill kit"},
+       {i:"🌊",t:"Concrete washout water discharged into a seasonal wadi channel"},
+       {i:"🧪",t:"Chemical drums stored without secondary containment on bare earth"},
+       {i:"💧",t:"Hydro test water containing corrosion inhibitor discharged to ground"},
+       {i:"🔧",t:"Excavator hydraulic hose burst — 80L hydraulic fluid into trench soil"},
+       {i:"🏭",t:"Oily water separator bypass — untreated water discharged to lined pond"}
+     ],
+     scenario:"Excavator hydraulic hose bursts during trenching. 60 litres of hydraulic fluid saturates the soil. No spill kit on site. Nearby wadi may be in groundwater connection with spill area.",
+     trigger:"Any liquid to soil, water, or drain — deploy spill kit, isolate source, report to environmental officer within 1 hour."},
+    {code:"EN2",name:"Air Emissions & Flaring",
+     desc:"Uncontrolled gas releases, abnormal flaring, or emissions exceeding permitted environmental limits.",
+     examples:[
+       {i:"🌋",t:"Continuous flare smoking — incomplete combustion, particulate emissions"},
+       {i:"💨",t:"Tank venting to atmosphere without vapour recovery during custody transfer"},
+       {i:"🚗",t:"Diesel generators running on high-sulphur fuel — SO₂ emissions near camp"},
+       {i:"🌫️",t:"Blowdown event releasing wet gas to atmosphere without flare routing"},
+       {i:"🏭",t:"Incinerator operated without temperature monitoring — dioxin risk"}
+     ],
+     scenario:"Wellsite flare operating at very low rates causing black smoke visible 10km away. No CEMS (continuous emissions monitoring) data available. Community complaint received.",
+     trigger:"Abnormal visible emissions, unrouted venting, or flaring without monitoring — report to environmental officer immediately."},
+    {code:"EN5",name:"Dust & Particulates",
+     desc:"Dust generation affecting worker health, community, or environment. When a CMR dust (silica, asbestos) is involved, select BOTH EN5 and C3.",
+     examples:[
+       {i:"🚛",t:"Unwatered haul road generating sustained visible dust cloud toward camp"},
+       {i:"🏗️",t:"Concrete breaking without wet suppression 300m from residential area"},
+       {i:"💨",t:"Sand blasting without full containment booth — abrasive dust in open air"},
+       {i:"🌬️",t:"Cement bag splitting in manual handling area near open drain"},
+       {i:"🚜",t:"Excavation in fine-grained soil without wetting — silty dust generation"}
+     ],
+     scenario:"Haul road 300m from a local community not watered during 06:00-18:00 peak shift. Community complains — visible dust coating laundry, vehicles, and food preparation areas.",
+     trigger:"Dust exceeding nuisance levels toward community or workers — if CMR dust, add C3 as secondary category."}
+  ]
+},
+{
+  code:"ERGO", name:"Ergonomic Hazards", icon:"🦴", btnClass:"ergon",
+  accent:"#00695C", accentL:"#E0F2F1", accentLL:"#B2DFDB", accentTxt:"#004D40",
+  desc:"Physical demands, posture, and vibration hazards directly linked to musculoskeletal disorders. Highly under-reported despite being the most common cause of occupational injury over time.",
+  chips:["MOST UNDER-REPORTED","LONG-TERM INJURY","MANUAL HANDLING"],
+  subs:[
+    {code:"E1",name:"Manual Handling & Awkward Posture",
+     desc:"Tasks requiring high force, awkward posture, high repetition, or sustained loads exceeding ergonomic thresholds.",
+     examples:[
+       {i:"📦",t:"Labourer carries 50kg cement bag alone over 100m of uneven terrain"},
+       {i:"🔩",t:"Worker reaches behind back to torque a bolt beneath a pipe spool — extreme rotation"},
+       {i:"🏗️",t:"Rebar tier kneeling on concrete for 6 hours without kneeling mat or rotation"},
+       {i:"🪛",t:"Repetitive hammering for 4 hours — vibration and RSI risk"},
+       {i:"🪵",t:"Civil crew manually carries 12m lengths of DN50 pipe — 25kg per person, 200m distance"},
+       {i:"🔧",t:"Pipe fitter in awkward overhead posture welding for 2+ hours — shoulder strain"}
+     ],
+     scenario:"Civil crew manually carries 12m DN50 pipe lengths across a 200m uneven site. Estimated load per person: 25kg. No mechanical aids requested. Foreman says 'it's only a short distance'.",
+     trigger:"High force, awkward posture, high repetition, or sustained posture beyond TILE assessment thresholds. Request mechanical aids."},
+    {code:"E6",name:"Vibration — HAVS & WBV",
+     desc:"Hand-arm vibration syndrome (HAVS) from vibrating tools, and whole-body vibration (WBV) from vehicles on rough terrain.",
+     examples:[
+       {i:"🔨",t:"Pneumatic breaker operator — 5 hours continuous use, no rotation, no anti-vibration gloves"},
+       {i:"🔧",t:"Plate compactor operator with standard gloves — no vibration assessment"},
+       {i:"🌲",t:"Chainsaw use without vibration-dampening grip — tingling reported in right hand"},
+       {i:"🚛",t:"Dump truck driver on rough haul road — WBV exceeds EAV on 8hr shift"},
+       {i:"🔩",t:"Needle scaler on corroded pipe — rated at 8.2 m/s² A(8), ELV is 5.0 m/s²"}
+     ],
+     scenario:"Concrete breaker operator works 5 continuous hours on a pneumatic breaker. No rotation, no vibration gloves. Reports tingling in right hand at lunchtime — early HAVS symptom.",
+     trigger:"Hand-held vibrating tool use beyond manufacturer's EAV (2.5 m/s²) or any tingling/numbness report. Rotate workers immediately."},
+    {code:"E8",name:"Fatigue",
+     desc:"Sleep deficit, excessive working hours, or impaired alertness that compromises safe task performance. Critical for operators of heavy equipment and permit holders.",
+     examples:[
+       {i:"😴",t:"Observer notes worker sleeping during TRIC briefing — day 18 of consecutive shifts"},
+       {i:"⏰",t:"Night-shift permit holder eyes closing at permit office desk at 03:00"},
+       {i:"🚜",t:"Excavator operator runs machine for 11 hours without a break"},
+       {i:"🛬",t:"Offshore crew: 21-day rotation without confirmed rest period compliance"},
+       {i:"🔴",t:"Worker reports tingling in hands, blurred vision — fatigue-related symptoms"},
+       {i:"📋",t:"Supervisor signs 6 concurrent permits without reviewing any — cognitive overload"}
+     ],
+     scenario:"Night shift supervisor observed dozing at permit office at 02:30. Day 21 consecutive. Three critical permits pending including a confined space entry and a critical lift.",
+     trigger:"Any sleep deficit indicator, >14 consecutive days on site, >12 hours continuous work, or observed impaired alertness. Do not allow safety-critical tasks."}
+  ]
+},
+{
+  code:"BIO", name:"Biological Hazards", icon:"🦠", btnClass:"bio",
+  accent:"#880E4F", accentL:"#FCE4EC", accentLL:"#F8BBD0", accentTxt:"#880E4F",
+  desc:"Hazards from micro-organisms, venomous animals, and biological agents. Critical in excavation, water system work, and remote desert operations in Oman.",
+  chips:["DESERT OPERATIONS","STAGNANT WATER","VENOMOUS FAUNA"],
+  subs:[
+    {code:"B1",name:"Micro-organisms & Biological Agents",
+     desc:"Bacterial, viral, and fungal hazards from water, soil, sewage, and contaminated materials.",
+     examples:[
+       {i:"💧",t:"Legionella risk in cooling tower with stagnant water — biofilm on internal surfaces"},
+       {i:"🌊",t:"Leptospirosis risk during drainage excavation in flooded soil — rodent urine contamination"},
+       {i:"🩸",t:"Hepatitis B risk for first aiders — no vaccination confirmation on site medical record"},
+       {i:"🪛",t:"Tetanus risk from rusty rebar cut — no first aid kit on site, nearest clinic 90 min away"},
+       {i:"💧",t:"Camp drinking water supply — no potable water certificate in site file"},
+       {i:"🏊",t:"Workers wade through standing water in wadi — unknown biological contamination"}
+     ],
+     scenario:"Workers excavating adjacent to a stagnant irrigation canal. Standing water in the trench. 3 workers wade through without rubber boots. No PPE brief for biological risk at this site.",
+     trigger:"Standing water, sewage, untreated water, or materials with confirmed or potential biological contamination — PPE brief and biological risk assessment required."},
+    {code:"B3",name:"Venomous Animals",
+     desc:"Venomous fauna including scorpions, snakes, hornets, and spiders — highly relevant in Oman's desert and semi-arid terrain.",
+     examples:[
+       {i:"🦂",t:"Scorpion found under formwork board — crew not briefed on protocol or first aid"},
+       {i:"🐍",t:"Saw-scaled viper sighted near active excavation in Dhofar region — no exclusion"},
+       {i:"🐝",t:"Hornet nest inside a structure being demolished — disturbed by demolition vibration"},
+       {i:"🕷️",t:"Camel spider activity near camp during dusk operations in desert site"},
+       {i:"🦂",t:"Worker turns rocks with bare hands at night to clear laydown area"},
+       {i:"🐍",t:"Snake skin found in pipe bundle — potential live snake presence during handling"}
+     ],
+     scenario:"Desert site in South Oman. Night shift starts at 20:00. Scorpion seen under a pallet. Workers clear laydown area turning rocks with bare hands. No first aid plan posted for envenomation.",
+     trigger:"Any behaviour that increases exposure to venomous fauna — especially at night, in desert locations, and when disturbing rocks, pipes, or ground cover."}
+  ]
+},
+{
+  code:"PSY", name:"Psychosocial", icon:"🧠", btnClass:"psych",
+  accent:"#E65100", accentL:"#FFF3E0", accentLL:"#FFE0B2", accentTxt:"#BF360C",
+  desc:"Workplace stress, workload pressure, aggression, and interpersonal dynamics that compromise safety-critical decision making and willingness to speak up.",
+  chips:["SPEAK UP","SAFETY CULTURE","WELLBEING"],
+  subs:[
+    {code:"PSY1",name:"Excessive Workload & Work Pace",
+     desc:"Pace of work, number of simultaneous activities, or demands on individuals creating conditions for error, inadequate supervision, or suppressed reporting.",
+     examples:[
+       {i:"📋",t:"Single HSE officer covering 3 simultaneous confined space entries across site"},
+       {i:"⏰",t:"Permit office processing 25 permits in 2-hour morning window — rushing review"},
+       {i:"🏃",t:"Supervisor skips TRIC briefing to meet production start deadline"},
+       {i:"📊",t:"6 critical maintenance activities planned for the same shift — inadequate manpower"},
+       {i:"😰",t:"HSE officer pressured by contractor PM to approve a permit he has concerns about"},
+       {i:"🔴",t:"Worker rushes valve assembly to meet deadline — makes threading error unchecked"}
+     ],
+     scenario:"HSE officer simultaneously overseeing hot work, a confined space entry, and a critical lift in three adjacent areas. None can be observed at the required frequency. He selects hot work and hopes.",
+     trigger:"Pace or volume of work creating conditions for error or inadequate supervision — raise stop-work if activities cannot be safely monitored."},
+    {code:"PSY2",name:"Workplace Violence & Aggression",
+     desc:"Verbal abuse, intimidation, threats, or behaviours that suppress safety reporting. All incidents must be reported — confidentiality guaranteed.",
+     examples:[
+       {i:"😡",t:"Supervisor verbally abuses a worker in front of crew for raising a safety concern"},
+       {i:"👊",t:"Physical altercation between two workers over task allocation dispute"},
+       {i:"😨",t:"Worker afraid to report a near-miss because 'the supervisor will make life difficult'"},
+       {i:"🚫",t:"Contractor threatens worker with repatriation if he files a safety observation"},
+       {i:"📢",t:"Bullying behaviour used to prevent a PDO national from speaking up at toolbox talk"}
+     ],
+     scenario:"Worker refuses to enter a confined space citing safety concerns. Supervisor responds aggressively in front of the crew, threatens to send the worker home. Worker enters under duress.",
+     trigger:"Any act of verbal abuse, intimidation, or threat — especially behaviours that suppress safety reporting. CONFIDENTIAL — report to HSE Lead."}
+  ]
+}
+];
+
+/* ═══════════════════════════════════════════════
+   QUIZ DATA — 30 questions
+═══════════════════════════════════════════════ */
+const QUIZ=[
+ {sc:"A maintenance crew breaks open a process flange at 23:00. The day-shift PTW expired at 18:00 and no night-shift permit has been issued. Supervisor gave verbal approval.",
+  q:"Which LSR is breached?",opts:["LSR-2: Energy Isolation","LSR-1: Work Authorisation","LSR-4: Hot Work","LSR-8: Bypassing Safety Controls"],ans:1,
+  fb:"LSR-1 (Work Authorisation) — verbal approval is NEVER a substitute for a valid PTW. All work must stop until a current, signed PTW is held at the worksite."},
+ {sc:"Welder working on a structural support 5m from an open oily water drain. No gas test. No firewatch. Wind direction changed during the job.",
+  q:"Primary hazard category?",opts:["P11: Fire & Explosion","LSR-4: Hot Work","C1: Toxic Chemicals","PS2: Loss of Containment"],ans:1,
+  fb:"LSR-4 (Hot Work) is the Life-Saving Rule breach — hot work within 15m of a hydrocarbon source without a valid permit and current gas test. P11 can be a secondary category."},
+ {sc:"Concrete saw cutting reinforced slabs. No water suppression. No dust extraction. Workers wear FFP1 disposable masks. Silica dust cloud drifts 80m.",
+  q:"Most specific chemical hazard category?",opts:["EN5: Dust & Particulates","C3: CMR — Crystalline Silica","P9: Slips Trips Falls","PPE-related issue"],ans:1,
+  fb:"C3 is the primary category — crystalline silica is a Group 1 carcinogen (IARC). FFP1 masks are NOT adequate. Select C3 specifically, not just a generic dust category."},
+ {sc:"A permit holder briefs 7 workers about excavation near buried HV cables. 4 workers speak only Arabic. Cable locations are not marked on the ground. Excavator strikes a cable.",
+  q:"Root cause hazard category?",opts:["P8: Access & Egress","PS4: Human Factors","P20: Poor Housekeeping","Physical Hazards"],ans:1,
+  fb:"PS4 (Human Factors) — the root cause is a communication failure combined with inadequate verification that hazard information was understood. Most commonly missed in observations."},
+ {sc:"July, 48°C. Workers on a black-painted pipeline in direct sunlight. No shade tent. No work-rest schedule. Water supply 200m away. Two workers show heat exhaustion signs at 10:30.",
+  q:"Which category applies?",opts:["E8: Fatigue","PS5: Natural Hazards","E1: Manual Handling","PPE-related"],ans:1,
+  fb:"PS5 (Natural Hazards) — extreme temperature exceeding JRA assumptions. Also check if PPE controls (cooling vest, shade tent) are absent. PS5 is the primary driver."},
+ {sc:"After bearing replacement on a centrifugal pump, the flexible coupling cover is left on the floor beside the running pump. Coupling rotates at 2900 rpm at waist height.",
+  q:"Which category?",opts:["LSR-8: Bypassing Safety Controls","P17: Rotating & Moving Machinery","P20: Poor Housekeeping","P4: Dropped Objects"],ans:1,
+  fb:"P17 (Rotating & Moving Machinery) — exposed rotating component within reach of personnel. Also consider LSR-8 if the guard removal was deliberate to 'save time'."},
+ {sc:"60-tonne crane lifts a 12m I-beam. Rigger uses a 5t soft sling with no spreader bar, sling angle 25°. Calculated force exceeds SWL by 2.3×. Banksman inside exclusion zone.",
+  q:"Life-Saving Rule violated?",opts:["LSR-6: Line of Fire","LSR-5: Safe Mechanical Lifting","LSR-1: Work Authorisation","LSR-8: Bypassing Safety Controls"],ans:1,
+  fb:"LSR-5 (Safe Mechanical Lifting) — SWL exceeded by calculation, incorrect sling type, no exclusion zone enforced. This is a critical lift plan failure. LSR-6 also applies for the banksman position."},
+ {sc:"Three subcontractors share one access route to a live process area. A crane lifts over the same area. No SIMOPS plan. No coordination between permit holders.",
+  q:"Best primary category?",opts:["P19: Congested Work Areas","PS3: SIMOPS","P2: Line of Fire","LSR-1: Work Authorisation"],ans:1,
+  fb:"PS3 (SIMOPS) — the compound hazard arises from uncoordinated combined activities. P19 and P2 are valid secondary categories. Always escalate SIMOPS to HSE Lead."},
+ {sc:"A pneumatic breaker operator works 5 continuous hours with standard gloves. No rotation schedule. Reports tingling in his right hand at lunchtime.",
+  q:"Which ergonomic category?",opts:["E1: Manual Handling","E6: Vibration","E8: Fatigue","P17: Rotating Machinery"],ans:1,
+  fb:"E6 (Vibration) — tingling is an early symptom of HAVS (Hand-Arm Vibration Syndrome). Rotate workers immediately and investigate daily exposure against the EAV (2.5 m/s²)."},
+ {sc:"Worker gauging a crude oil tank with an open hatch. Wind direction changes. His gas monitor battery is flat. H₂S detected at 15 ppm by a nearby colleague's monitor.",
+  q:"Primary hazard category?",opts:["LSR-1: Work Authorisation","C1: Toxic Gases","P14: Poor Illumination","PS2: Loss of Containment"],ans:1,
+  fb:"C1 (Toxic Chemicals) — H₂S at 15 ppm is above the PDO action level of 10 ppm. The flat-battery monitor is a critical control failure. Evacuate, report, and investigate before re-entry."},
+ {sc:"Supervisor removes a LOTO padlock from an energised pump 'just to check the coupling' while the maintenance team hasn't finished the job.",
+  q:"Which LSR is violated?",opts:["LSR-8: Bypassing Safety Controls","LSR-2: Energy Isolation","LSR-1: Work Authorisation","LSR-5: Safe Mechanical Lifting"],ans:1,
+  fb:"LSR-2 (Energy Isolation) is the primary breach. LSR-8 (Bypassing Safety Controls) also applies since the LOTO is a designed safety control. Both are defensible — select the most specific."},
+ {sc:"Excavator hydraulic hose bursts during trenching. 60 litres of hydraulic fluid saturates the soil. No spill kit on site. A seasonal wadi runs 30m from the spill.",
+  q:"Environmental category?",opts:["EN5: Dust & Particulates","EN1: Soil & Water Contamination","EN2: Air Emissions","C5: Reactive Chemicals"],ans:1,
+  fb:"EN1 (Soil & Water Contamination) — hydraulic fluid to soil with groundwater/surface water connection risk. Deploy spill kit, barricade, and report to environmental officer within 1 hour."},
+ {sc:"Worker refuses to enter a confined space citing safety concerns. Supervisor responds aggressively and threatens repatriation in front of the crew. Worker enters under duress.",
+  q:"Psychosocial category?",opts:["PSY1: Workload","PSY2: Violence & Aggression","PS4: Human Factors","E8: Fatigue"],ans:1,
+  fb:"PSY2 (Workplace Violence & Aggression) — the threatening behaviour suppresses the worker's right to refuse unsafe work. This is confidential — report directly to HSE Lead or PDO HSE department."},
+ {sc:"A worker enters a buried inspection pit adjacent to a sour gas pipeline. No gas test, no standby person, no rescue equipment. H₂S detected at 20 ppm after entry.",
+  q:"LSR violated?",opts:["LSR-4: Hot Work","LSR-3: Confined Space Entry","LSR-2: Energy Isolation","LSR-6: Line of Fire"],ans:1,
+  fb:"LSR-3 (Confined Space Entry) — entry without gas test, no standby, and no rescue provision is a triple violation of CSE requirements. Evacuation and incident investigation required immediately."},
+ {sc:"Maintenance uses an oxygen supply to blow clear a hydraulic fitting contaminated with residual oil. The fitting is now in an O₂-enriched atmosphere with hydrocarbon contamination.",
+  q:"Chemical hazard category?",opts:["C1: Toxic Gases","C5: Explosive & Reactive","C3: CMR Substances","PS2: Loss of Containment"],ans:1,
+  fb:"C5 (Explosive & Reactive) — oxygen plus hydrocarbon contamination creates a violently explosive condition. O₂ must never be used as a purge gas. Stop work, ventilate area, and report immediately."},
+ {sc:"Night convoy from camp to wellsite. Lead vehicle driver unresponsive on radio. Journey manager not notified. Vehicle found 2km off route — driver asleep at the wheel.",
+  q:"LSR violated?",opts:["LSR-9: Drug & Alcohol","LSR-7: Driving & Journey Management","LSR-8: Bypassing Safety Controls","E8: Fatigue"],ans:1,
+  fb:"LSR-7 (Driving & Journey Management) — night journey without journey management check-in, driver fatigue, and route deviation. E8 (Fatigue) is an important secondary category."},
+ {sc:"Worker developing dermatitis after 3 days applying epoxy primer in a confined module. No forced ventilation, no supplied air respirator. Isocyanate sensitisation suspected.",
+  q:"Most specific chemical category?",opts:["C3: CMR Substances","C8: Sensitisers & Allergens","C1: Toxic Chemicals","PPE-related issue"],ans:1,
+  fb:"C8 (Sensitisers & Allergens) — isocyanates are potent sensitisers. Once sensitised, the worker CANNOT return to isocyanate exposure. Engineering controls must precede PPE."},
+ {sc:"An instrument engineer notices a slow drip from a DN80 impulse line. Sour condensate at 85°C drips onto bare insulation below. Confirmed by pressure reading.",
+  q:"Process hazard category?",opts:["C1: Toxic Chemicals","PS2: Loss of Containment","P11: Fire & Explosion","P13: High Pressure"],ans:1,
+  fb:"PS2 (Loss of Containment) — any unintended release from a contained process system. C1 can be added (sour condensate = H₂S). Isolate source, check ignition risks, notify operations control."},
+ {sc:"HSE officer simultaneously overseeing hot work, a confined space entry, and a critical lift in adjacent areas. He selects hot work to supervise and leaves the others unmonitored.",
+  q:"Which psychosocial category?",opts:["PSY2: Violence","PSY1: Excessive Workload","PS4: Human Factors","E8: Fatigue"],ans:1,
+  fb:"PSY1 (Excessive Workload) — activities cannot all be safely supervised simultaneously. The rate of work and simultaneous operations exceed safe monitoring capacity. SIMOPS review required."},
+ {sc:"Scaffolder dismantling tube-and-coupler scaffold at 4m. Moving between boards without harness — 1.5m from an unguarded leading edge. No rescue plan in place.",
+  q:"Which physical hazard?",opts:["P4: Dropped Objects","P3: Working at Height","P19: Congested Area","P8: Access & Egress"],ans:1,
+  fb:"P3 (Working at Height) — any work at ≥1.8m without collective edge protection AND fall arrest PPE. P4 may also apply if tools are unsecured. Both should be recorded."},
+ {sc:"Driver on site road uses a mobile phone. Speed gun shows 55 kph in a 30 kph zone. Worker on adjacent footpath struck by gravel spray.",
+  q:"Primary category?",opts:["P9: Slips Trips","P10: Reckless Driving","LSR-7: Driving","P2: Line of Fire"],ans:2,
+  fb:"LSR-7 and P10 are both correct. Mobile phone use and speeding in a posted zone are LSR-7 violations. P10 captures the physical hazard. Select LSR-7 as primary — it triggers mandatory escalation."},
+ {sc:"Open-end spanner left on grating 4m above an active cable pulling crew below. Instrument technician has moved to a different location — spanner unsecured.",
+  q:"Physical hazard category?",opts:["P3: Working at Height","P20: Poor Housekeeping","P4: Dropped Objects","P5: Sharp Edges"],ans:2,
+  fb:"P4 (Dropped Objects) — any unsecured object at elevation above personnel is a dropped object hazard. Clear the area below and secure all tools at height before continuing."},
+ {sc:"Cooling tower water sample confirms Legionella concentration 3× above action level. The tower has been running without biocide treatment for 6 weeks.",
+  q:"Biological hazard?",opts:["B3: Venomous Animals","B1: Micro-organisms","EN1: Water Contamination","C1: Toxic Chemicals"],ans:1,
+  fb:"B1 (Micro-organisms) — Legionella is a waterborne bacterium causing Legionnaires' disease. Immediate shutdown, shock dosing, and notification to site medical officer and environmental team."},
+ {sc:"Night shift in desert Oman. Workers clear a laydown area turning rocks with bare hands. A saw-scaled viper was spotted near the same trench earlier that evening.",
+  q:"Biological hazard category?",opts:["B1: Micro-organisms","B3: Venomous Animals","PS5: Natural Hazards","PPE-related"],ans:1,
+  fb:"B3 (Venomous Animals) — saw-scaled vipers are responsible for the most snakebite deaths in the Middle East. Night operations in desert terrain require a venomous animal protocol."},
+ {sc:"Operator bypasses the high-high pressure trip on a separator to avoid production shutdown. 45 minutes later, the relief valve lifts — the trip would have activated first.",
+  q:"Which LSR?",opts:["LSR-1: Work Authorisation","LSR-8: Bypassing Safety Controls","PS6: Energy Isolation","PS3: SIMOPS"],ans:1,
+  fb:"LSR-8 (Bypassing Safety Controls) — defeating an engineered protection system (the trip) is an absolute Life-Saving Rule breach regardless of production pressure. MOC and deviation permit required."},
+ {sc:"Worker carries a 50kg cement bag alone over 100m of uneven terrain to meet a concrete pour schedule. No mechanical aid available or requested.",
+  q:"Ergonomic category?",opts:["E8: Fatigue","E1: Manual Handling","E6: Vibration","PSY1: Workload"],ans:1,
+  fb:"E1 (Manual Handling) — 50kg single-person lift is approximately 2.5× the PDO recommended manual handling limit. Mechanical aids must be requested and provided. Not a 'shortcuts' issue."},
+ {sc:"Hot tapping a live 6\" gas line. 40m away, a contractor nitrogen tests a new spool connected to the same header. No communication between teams. Test pressure exceeds operating limit.",
+  q:"Process hazard category?",opts:["PS2: Loss of Containment","PS3: SIMOPS","P13: High Pressure","LSR-4: Hot Work"],ans:1,
+  fb:"PS3 (SIMOPS) — the hazard comes from the combination of two pressure operations on connected systems without coordination. Stop all activities. Convene SIMOPS review with all permit holders."},
+ {sc:"Worker on day 21 of consecutive 12-hour shifts. Observed dozing at permit office desk at 02:30. Three critical permits pending his signature including a CSE.",
+  q:"Which category?",opts:["E1: Manual Handling","E8: Fatigue","PSY1: Workload","PS4: Human Factors"],ans:1,
+  fb:"E8 (Fatigue) — physical indicator of sleep deficit. A fatigued permit holder signing a CSE is an immediate safety concern. Relieve from safety-critical duty and escalate to site manager."},
+ {sc:"Worker showing slurred speech and glassy eyes at night-shift muster. Supervisor does not conduct D&A test citing 'no time'. Worker operates a forklift for 4 hours.",
+  q:"LSR violated?",opts:["LSR-7: Driving","LSR-9: Drug & Alcohol","LSR-8: Bypassing Controls","E8: Fatigue"],ans:1,
+  fb:"LSR-9 (Drug & Alcohol) — signs of impairment require immediate cause-based D&A testing. Allowing the worker to continue operating a forklift is a secondary LSR-9 violation by the supervisor."},
+ {sc:"Two excavations converging at a buried cable junction. No SIMOPS plan. Wall collapse risk as soil is undercut from two directions by separate excavator crews.",
+  q:"Best category?",opts:["P3: Working at Height","PS3: SIMOPS","P19: Congested Area","P2: Line of Fire"],ans:1,
+  fb:"PS3 (SIMOPS) — convergent excavations create a compound stability hazard not covered by individual PTWs. Also consider P2 (Line of Fire — personnel at collapse risk). Both are valid."},
+ {sc:"Firefighter found a jumper wire across the fire and gas detector in a process module. No management of change, no formal bypass, no alternative monitoring in place.",
+  q:"LSR?",opts:["LSR-4: Hot Work","LSR-2: Energy Isolation","LSR-8: Bypassing Safety Controls","LSR-1: Work Authorisation"],ans:2,
+  fb:"LSR-8 (Bypassing Safety Controls) — defeating a fire and gas detection system is a critical safety control bypass. Immediate restoration, MOC, and investigation required."}
+];
+
+/* ═══════════════════════════════════════════════
+   DECISION TREE
+═══════════════════════════════════════════════ */
+const TREE={
+ q:"Was a Life-Saving Rule (LSR) at risk or violated?",
+ icon:"🚫",
+ opts:[
+  {l:"Yes — an LSR was breached or at risk",i:"🚫",
+   next:{q:"Which Life-Saving Rule?",icon:"🚫",opts:[
+    {l:"No valid Permit to Work",i:"📋",result:{code:"LSR-1",name:"Work Authorisation",icon:"📋",acc:"#C62828",action:"STOP ALL WORK. No activity may continue without a valid, signed PTW physically at the worksite."}},
+    {l:"Energy isolation / LOTO failure",i:"🔒",result:{code:"LSR-2",name:"Energy Isolation",icon:"🔒",acc:"#C62828",action:"STOP WORK. Re-verify ALL energy sources are isolated, locked, and tagged before resuming."}},
+    {l:"Confined space entry without controls",i:"⛔",result:{code:"LSR-3",name:"Confined Space Entry",icon:"⛔",acc:"#C62828",action:"EVACUATE IMMEDIATELY. Confirm gas test, standby, and rescue provisions before re-entry."}},
+    {l:"Hot work near flammable materials",i:"🔥",result:{code:"LSR-4",name:"Hot Work",icon:"🔥",acc:"#C62828",action:"STOP HOT WORK. Verify current gas test (<30 min), exclusion zone, and firewatch."}},
+    {l:"Unsafe mechanical lift",i:"🏗️",result:{code:"LSR-5",name:"Safe Mechanical Lifting",icon:"🏗️",acc:"#C62828",action:"STOP THE LIFT. Verify lift plan, sling SWL, exclusion zone, and exclusion of all personnel from below."}},
+    {l:"Person in line of fire",i:"💥",result:{code:"LSR-6",name:"Line of Fire",icon:"💥",acc:"#C62828",action:"REPOSITION PERSONNEL immediately. Establish exclusion zones before any energy release."}},
+    {l:"Driving / journey management breach",i:"🚗",result:{code:"LSR-7",name:"Driving & Journey Mgmt",icon:"🚗",acc:"#C62828",action:"Stop vehicle. Report driver to supervisor. Review journey management plan."}},
+    {l:"Safety device bypassed or defeated",i:"🛡️",result:{code:"LSR-8",name:"Bypassing Safety Controls",icon:"🛡️",acc:"#C62828",action:"RESTORE ALL SAFETY CONTROLS immediately. Do not allow continued operation without formal deviation permit."}},
+    {l:"Drug / alcohol suspicion",i:"💊",result:{code:"LSR-9",name:"Drug & Alcohol Free",icon:"💊",acc:"#C62828",action:"Remove person from work area immediately. Conduct cause-based D&A test. Report to supervisor and medical."}},
+   ]}},
+  {l:"No — no LSR involved. Continue.",i:"✅",
+   next:{q:"What is the primary nature of the hazard?",icon:"❓",opts:[
+    {l:"Physical — forces, energy, movement, falls",i:"⚡",
+     next:{q:"Which type of physical hazard?",icon:"⚡",opts:[
+      {l:"Working at height (≥1.8m fall risk)",i:"📏",result:{code:"P3",name:"Working at Height",icon:"📏",acc:"#E65100",action:"Verify edge protection AND fall arrest before continuing. Both required."}},
+      {l:"Tool or material could fall onto someone",i:"📦",result:{code:"P4",name:"Dropped Objects",icon:"📦",acc:"#E65100",action:"Clear area below. Secure all tools at height. Install toe boards on scaffold."}},
+      {l:"Person in path of energy release",i:"💥",result:{code:"P2",name:"Line of Fire",icon:"💥",acc:"#E65100",action:"Reposition personnel out of energy trajectory before any operation."}},
+      {l:"Vehicle or driving hazard",i:"🚗",result:{code:"P10",name:"Unsafe Driving",icon:"🚗",acc:"#E65100",action:"Stop vehicle. Report to supervisor. Review site traffic management plan."}},
+      {l:"Fire or explosion risk",i:"🔥",result:{code:"P11",name:"Fire & Explosion",icon:"🔥",acc:"#E65100",action:"Remove ignition sources. Segregate flammable materials. Issue hot work permit if applicable."}},
+      {l:"Exposed rotating/moving machinery",i:"⚙️",result:{code:"P17",name:"Rotating Machinery",icon:"⚙️",acc:"#E65100",action:"Isolate equipment (LOTO) before replacing guards. Never operate unguarded."}},
+      {l:"Slip, trip, or housekeeping issue",i:"🧹",result:{code:"P20",name:"Housekeeping / Slips",icon:"🧹",acc:"#E65100",action:"Immediate housekeeping required. Do not allow work to continue over the hazard."}},
+     ]}},
+    {l:"Chemical — substance, gas, or toxic material",i:"🧪",
+     next:{q:"What type of chemical hazard?",icon:"🧪",opts:[
+      {l:"Toxic gas or liquid (H₂S, BTEX, CO, ammonia)",i:"☠️",result:{code:"C1",name:"Toxic Chemicals",icon:"☠️",acc:"#4A148C",action:"Verify atmospheric monitoring, PPE, and emergency response before continuing."}},
+      {l:"Carcinogen (silica, asbestos, benzene, Cr-6)",i:"🔬",result:{code:"C3",name:"CMR Substances",icon:"🔬",acc:"#4A148C",action:"Select C3 — not just PPE-related. Quantify exposure. Engineering controls first."}},
+      {l:"Explosive or reactive chemical",i:"💥",result:{code:"C5",name:"Explosive / Reactive",icon:"💥",acc:"#4A148C",action:"Separate incompatible substances immediately. Check compatibility matrix."}},
+      {l:"Skin sensitiser or allergen (epoxy, isocyanate)",i:"🩹",result:{code:"C8",name:"Sensitisers",icon:"🩹",acc:"#4A148C",action:"Identify the substance. Engineering controls must precede PPE for sensitisers."}},
+     ]}},
+    {l:"Process — plant, pipeline, or operations",i:"🔧",
+     next:{q:"Which process hazard?",icon:"🔧",opts:[
+      {l:"Fluid or gas leaking from a contained system",i:"💧",result:{code:"PS2",name:"Loss of Containment",icon:"💧",acc:"#1565C0",action:"Isolate source, check for ignition risks, notify operations control immediately."}},
+      {l:"Multiple activities creating compound risk",i:"🔄",result:{code:"PS3",name:"SIMOPS",icon:"🔄",acc:"#1565C0",action:"Stop activities. Convene SIMOPS review with all permit holders before resuming."}},
+      {l:"Communication failure or human error",i:"🧠",result:{code:"PS4",name:"Human Factors",icon:"🧠",acc:"#1565C0",action:"Document the specific failure mode. PS4 is the most under-reported high-consequence category."}},
+      {l:"Extreme weather or temperature",i:"⛈️",result:{code:"PS5",name:"Natural Hazards",icon:"⛈️",acc:"#1565C0",action:"Compare conditions to JRA environmental limits. Stand down if limits exceeded."}},
+      {l:"LOTO/isolation failure on process system",i:"🔒",result:{code:"PS6",name:"Energy Isolation (Process)",icon:"🔒",acc:"#1565C0",action:"Stop maintenance. Re-verify double block, bleed, and all energy sources."}},
+     ]}},
+    {l:"Environmental — soil, water, air, community",i:"🌍",
+     next:{q:"What type of environmental hazard?",icon:"🌍",opts:[
+      {l:"Liquid spill to soil or watercourse",i:"💧",result:{code:"EN1",name:"Soil & Water Contamination",icon:"💧",acc:"#1B5E20",action:"Deploy spill kit. Isolate source. Report to environmental officer within 1 hour."}},
+      {l:"Dust or particulates affecting workers or community",i:"💨",result:{code:"EN5",name:"Dust & Particulates",icon:"💨",acc:"#1B5E20",action:"Implement dust suppression immediately. If CMR dust (silica, asbestos), also select C3."}},
+     ]}},
+    {l:"Ergonomic — physical demand, fatigue, vibration",i:"🦴",
+     next:{q:"Which ergonomic hazard?",icon:"🦴",opts:[
+      {l:"Heavy lifting or awkward posture",i:"📦",result:{code:"E1",name:"Manual Handling",icon:"📦",acc:"#00695C",action:"Assess TILE. Provide mechanical aids. Report repeated manual handling practices."}},
+      {l:"Vibrating tools or rough vehicle terrain",i:"📳",result:{code:"E6",name:"Vibration (HAVS/WBV)",icon:"📳",acc:"#00695C",action:"Rotate workers. Issue anti-vibration gloves. Record daily exposure against EAV."}},
+      {l:"Tiredness, excessive hours, or impaired alertness",i:"😴",result:{code:"E8",name:"Fatigue",icon:"😴",acc:"#00695C",action:"Remove from safety-critical tasks immediately. Escalate to supervisor."}},
+     ]}},
+    {l:"Biological — microbes, venomous animals",i:"🦠",
+     next:{q:"Which biological hazard?",icon:"🦠",opts:[
+      {l:"Micro-organisms — bacteria, virus, stagnant water",i:"💧",result:{code:"B1",name:"Micro-organisms",icon:"💧",acc:"#880E4F",action:"PPE briefing and biological risk assessment required. Report to site medical."}},
+      {l:"Venomous animals — scorpions, snakes, hornets",i:"🦂",result:{code:"B3",name:"Venomous Animals",icon:"🦂",acc:"#880E4F",action:"Do not disturb. Establish exclusion zone. Post venomous animal protocol and first aid plan."}},
+     ]}},
+    {l:"Psychosocial — stress, pressure, aggression",i:"🧠",
+     next:{q:"Which psychosocial hazard?",icon:"🧠",opts:[
+      {l:"Excessive workload or pace of work",i:"📊",result:{code:"PSY1",name:"Excessive Workload",icon:"📊",acc:"#E65100",action:"Document specific capacity overload. Raise with HSE Lead. Stop work if unsafe monitoring."}},
+      {l:"Verbal abuse or intimidation",i:"😡",result:{code:"PSY2",name:"Violence & Aggression",icon:"😡",acc:"#E65100",action:"CONFIDENTIAL — report directly to HSE Lead. Worker's right to refuse unsafe work is protected."}},
+     ]}},
+   ]}}
+ ]
+};
+
+/* ═══════════════════════════════════════════════
+   APP STATE
+═══════════════════════════════════════════════ */
+let pageStack=[];
+let currentCat=null;
+let quizState={questions:[],idx:0,score:0,answered:false};
+let treeHistory=[];
+let treeNode=TREE;
+let deferredPrompt=null;
+
+/* ═══════════════════════════════════════════════
+   PAGE NAVIGATION
+═══════════════════════════════════════════════ */
+function openPage(id,pushCurrent=true){
+  const cur=document.querySelector('.page:not(.hidden)');
+  if(cur&&cur.id!==id){
+    if(pushCurrent) pageStack.push(cur.id);
+    cur.classList.add('slide-left');
+    setTimeout(()=>cur.classList.add('hidden'),320);
+  }
+  const next=document.getElementById(id);
+  next.classList.remove('hidden','slide-left');
+  next.scrollTop=0;
+  if(id==='pg-quiz') initQuiz();
+  if(id==='pg-selector') initTree();
+  if(id==='pg-search') setTimeout(()=>document.getElementById('searchInput').focus(),300);
+}
+
+function goBack(){
+  const cur=document.querySelector('.page:not(.hidden)');
+  const prevId=pageStack.pop()||'pg-home';
+  cur.classList.add('slide-left');
+  setTimeout(()=>{cur.classList.remove('slide-left');cur.classList.add('hidden');},280);
+  const prev=document.getElementById(prevId);
+  prev.classList.remove('hidden','slide-left');
+}
+
+/* ═══════════════════════════════════════════════
+   BUILD HOME GRID
+═══════════════════════════════════════════════ */
+function buildHomeGrid(){
+  const g=document.getElementById('catGrid');
+  CATS.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className=`cat-btn ${cat.btnClass}`;
+    btn.innerHTML=`
+      <div class="cb-arrow">›</div>
+      <div class="cb-icon">${cat.icon}</div>
+      <div class="cb-name">${cat.name}</div>
+      <div class="cb-count">${cat.subs.length} sub-categories</div>`;
+    btn.onclick=()=>openDetailPage(cat);
+    g.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   DETAIL PAGE
+═══════════════════════════════════════════════ */
+function openDetailPage(cat){
+  currentCat=cat;
+  document.getElementById('detail-hdr').style.background=cat.accent;
+  document.getElementById('detail-hdr-title').textContent=cat.name;
+  document.getElementById('detail-hdr-code').textContent=cat.code;
+  document.getElementById('detail-hdr-icon').textContent=cat.icon;
+  document.getElementById('detail-hero').style.background=`linear-gradient(160deg, ${cat.accent}, ${cat.accent}cc)`;
+  document.getElementById('d-icon').textContent=cat.icon;
+  document.getElementById('d-title').textContent=cat.name;
+  document.getElementById('d-desc').textContent=cat.desc;
+  const chips=document.getElementById('d-chips');
+  chips.innerHTML=cat.chips.map(c=>`<div class="detail-chip">${c}</div>`).join('');
+  const subsEl=document.getElementById('detail-subs');
+  // Set CSS vars for accent colours on the detail page
+  const root=document.documentElement;
+  root.style.setProperty('--accent',cat.accent);
+  root.style.setProperty('--accent-ll',cat.accentL);
+  root.style.setProperty('--accent-lll',cat.accentLL);
+  root.style.setProperty('--accent-text',cat.accentTxt);
+  subsEl.innerHTML='';
+  if(cat.code==='LSR'){
+    const banner=document.createElement('div');
+    banner.className='lsr-banner';
+    banner.innerHTML=`<div class="lsr-banner-title">🚨 STOP WORK — MANDATORY ESCALATION</div><div class="lsr-banner-sub">Any breach of a Life-Saving Rule requires immediate work stoppage and escalation to the HSE Lead and Contract Holder. No exceptions.</div>`;
+    subsEl.appendChild(banner);
+  }
+  cat.subs.forEach((sub,si)=>{
+    const card=document.createElement('div');
+    card.className='sub-card';
+    card.innerHTML=`
+      <div class="sub-top" onclick="toggleSub(this.parentElement)">
+        <div class="sub-code">${sub.code}</div>
+        <div class="sub-name">${sub.name}</div>
+        <div class="sub-chev">▼</div>
+      </div>
+      <div class="sub-body">
+        <div class="sub-desc">${sub.desc}</div>
+        <div class="pills-label">Field Examples</div>
+        <div class="pills">${sub.examples.map(e=>`<div class="pill" data-i="${e.i}">${e.t}</div>`).join('')}</div>
+        <div class="scenario-box">
+          <div class="scenario-lbl">Real-World Scenario</div>
+          <div class="scenario-txt">${sub.scenario}</div>
+        </div>
+        <div class="trigger-box">
+          <div class="trigger-lbl">⚠ When to select this category</div>
+          <div class="trigger-txt">${sub.trigger}</div>
+        </div>
+      </div>`;
+    subsEl.appendChild(card);
+    if(si===0) setTimeout(()=>card.classList.add('open'),50);
+  });
+  openPage('pg-detail');
+}
+
+function toggleSub(card){
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('#detail-subs .sub-card.open').forEach(c=>c.classList.remove('open'));
+  if(!isOpen) card.classList.add('open');
+}
+
+/* ═══════════════════════════════════════════════
+   QUIZ ENGINE
+═══════════════════════════════════════════════ */
+function initQuiz(){
+  const shuffled=[...QUIZ].sort(()=>Math.random()-.5);
+  quizState={questions:shuffled,idx:0,score:0,answered:false};
+  renderQuiz();
+}
+
+function renderQuiz(){
+  const w=document.getElementById('quizWrap');
+  const qs=quizState.questions;
+  if(quizState.idx>=qs.length){renderQuizEnd();return;}
+  const q=qs[quizState.idx];
+  quizState.answered=false;
+  const pct=Math.round((quizState.idx/qs.length)*100);
+  w.innerHTML=`
+    <div class="quiz-progress">
+      <div class="quiz-bar-wrap"><div class="quiz-bar" style="width:${pct}%"></div></div>
+      <div class="quiz-num">${quizState.idx+1}/${qs.length}</div>
+      <div class="quiz-score-badge">✓ ${quizState.score}</div>
+    </div>
+    <div class="q-scenario">
+      <div class="q-scene-lbl">📍 Scenario</div>
+      <div class="q-scene-txt">${q.sc}</div>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts">
+      ${q.opts.map((o,i)=>`
+        <div class="q-opt" onclick="selectAns(this,${i},${q.ans})" data-i="${i}">
+          <div class="opt-key">${String.fromCharCode(65+i)}</div>
+          <div class="opt-txt">${o}</div>
+        </div>`).join('')}
+    </div>
+    <div class="q-feedback" id="qfb">
+      <div class="q-feedback-hd" id="qfb-hd"></div>
+      <div class="q-feedback-txt" id="qfb-txt"></div>
+    </div>
+    <button class="q-next" id="qnext" onclick="nextQuestion()">Next question →</button>`;
+  document.getElementById('quiz-scroll').scrollTop=0;
+}
+
+function selectAns(el,chosen,correct){
+  if(quizState.answered) return;
+  quizState.answered=true;
+  const opts=document.querySelectorAll('.q-opt');
+  opts.forEach((o,i)=>{
+    o.style.pointerEvents='none';
+    if(i===correct) o.classList.add('correct');
+    else if(i===chosen&&chosen!==correct) o.classList.add('wrong');
+  });
+  const isOk=chosen===correct;
+  if(isOk) quizState.score++;
+  const fb=document.getElementById('qfb');
+  const q=quizState.questions[quizState.idx];
+  fb.className='q-feedback '+(isOk?'show-ok':'show-bad');
+  document.getElementById('qfb-hd').textContent=isOk?'✅ Correct!':'❌ Not quite';
+  document.getElementById('qfb-txt').textContent=q.fb;
+  document.getElementById('qnext').className='q-next show';
+}
+
+function nextQuestion(){
+  quizState.idx++;
+  renderQuiz();
+  document.getElementById('quiz-scroll').scrollTop=0;
+}
+
+function renderQuizEnd(){
+  const s=quizState.score;
+  const t=quizState.questions.length;
+  const pct=Math.round(s/t*100);
+  const icon=pct>=80?'🏆':pct>=60?'👍':'📚';
+  const msg=pct>=80?'Excellent HazCat command! You are ready to lead toolbox talks.':pct>=60?'Good result. Review the missed categories in the Reference Library.':'Use the Category Selector and review the full Library before your next shift.';
+  document.getElementById('quizWrap').innerHTML=`
+    <div class="quiz-end">
+      <div class="big-icon">${icon}</div>
+      <div class="quiz-end-title">Quiz Complete!</div>
+      <div class="quiz-end-score">You scored <strong>${s} / ${t}</strong> (${pct}%)</div>
+      <div class="quiz-end-msg">${msg}</div>
+      <button class="btn-retry" onclick="initQuiz()">Try Again 🔄</button>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════
+   DECISION TREE
+═══════════════════════════════════════════════ */
+function initTree(){
+  treeHistory=[];
+  treeNode=TREE;
+  renderTree();
+}
+
+function renderTree(){
+  const bc=document.getElementById('treeBreadcrumb');
+  bc.innerHTML=treeHistory.length?treeHistory.map((h,i)=>
+    `<span>${h}</span>${i<treeHistory.length-1?'<span class="sep">›</span>':''}`).join(''):
+    '<span style="color:#BDBDBD">Start</span>';
+
+  const w=document.getElementById('treeWrap');
+  if(treeNode.result){
+    const r=treeNode.result;
+    document.documentElement.style.setProperty('--accent',r.acc);
+    document.documentElement.style.setProperty('--accent-ll',r.acc+'22');
+    w.innerHTML=`
+      <div class="tree-result-card">
+        <div class="tree-result-icon">${r.icon}</div>
+        <div class="tree-result-code">${r.code}</div>
+        <div class="tree-result-name">${r.name}</div>
+        <div class="tree-result-action">${r.action}</div>
+        <div class="tree-result-btns">
+          <button class="tree-btn tree-btn-primary" onclick="showToast('Code copied: ${r.code}')">📋 Copy Code</button>
+          <button class="tree-btn tree-btn-ghost" onclick="initTree()">← Start Over</button>
+        </div>
+      </div>`;
+    return;
+  }
+  w.innerHTML=`
+    <div class="tree-q">${treeNode.icon||''} ${treeNode.q}</div>
+    <div class="tree-opts-list">
+      ${(treeNode.opts||[]).map((opt,i)=>`
+        <div class="tree-opt" onclick="treeSelect(${i})">
+          <div class="t-icon">${opt.i||'›'}</div>
+          <div class="t-txt">${opt.l}</div>
+          <div class="t-arr">›</div>
+        </div>`).join('')}
+    </div>
+    ${treeHistory.length?`<div style="margin-top:16px;text-align:center">
+      <button onclick="treeBack()" style="background:none;border:none;color:#9E9E9E;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font)">← Back</button>
+    </div>`:''}`;
+}
+
+function treeSelect(i){
+  const opt=(treeNode.opts||[])[i];
+  if(!opt) return;
+  treeHistory.push(opt.l.substring(0,35)+(opt.l.length>35?'…':''));
+  treeNode=opt.result?{result:opt.result}:opt.next||opt;
+  renderTree();
+  document.querySelector('#pg-selector .scroll').scrollTop=0;
+}
+
+function treeBack(){
+  if(!treeHistory.length) return;
+  treeHistory.pop();
+  // re-walk from root
+  let node=TREE;
+  for(const step of treeHistory){
+    const opt=(node.opts||[]).find(o=>o.l.startsWith(step.replace('…','')));
+    if(opt) node=opt.result?{result:opt.result}:opt.next||opt;
+  }
+  treeNode=node;
+  renderTree();
+}
+
+/* ═══════════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════════ */
+document.getElementById('searchInput').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  const res=document.getElementById('searchResults');
+  if(!q){res.innerHTML='<div class="no-results"><div class="nr-icon">💡</div><div class="nr-txt">Type to search all 240+ examples</div></div>';return;}
+  const hits=[];
+  CATS.forEach(cat=>{
+    cat.subs.forEach(sub=>{
+      const hay=[sub.code,sub.name,sub.desc,sub.scenario,sub.trigger,
+        ...sub.examples.map(e=>e.t)].join(' ').toLowerCase();
+      if(hay.includes(q)){
+        hits.push({cat,sub,ex:sub.examples.find(e=>e.t.toLowerCase().includes(q))});
+      }
+    });
+  });
+  if(!hits.length){res.innerHTML='<div class="no-results"><div class="nr-icon">🔎</div><div class="nr-txt">No results — try H₂S, crane, silica, LOTO…</div></div>';return;}
+  const div=document.createElement('div');
+  div.className='search-results';
+  hits.slice(0,30).forEach(({cat,sub,ex})=>{
+    const h=document.createElement('div');
+    h.className='search-hit';
+    h.style.setProperty('--accent',cat.accent);
+    h.innerHTML=`
+      <div class="hit-dot" style="background:${cat.accent}"></div>
+      <div class="hit-content">
+        <div class="hit-cat">${cat.name} › ${sub.code}</div>
+        <div class="hit-name">${sub.name}</div>
+        ${ex?`<div class="hit-ex">${ex.i} ${ex.t}</div>`:''}
+      </div>`;
+    h.onclick=()=>{openDetailPage(cat);};
+    div.appendChild(h);
+  });
+  res.innerHTML='';
+  res.appendChild(div);
+});
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+/* ═══════════════════════════════════════════════
+   PWA — SERVICE WORKER (inline blob)
+═══════════════════════════════════════════════ */
+const SW=`const V='hazcat-v3';
+const FILES=[self.registration.scope];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(n=>n!==V).map(n=>caches.delete(n)))).then(()=>self.clients.claim()));});
+self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const c=res.clone();caches.open(V).then(ca=>ca.put(e.request,c));return res;}).catch(()=>caches.match(self.registration.scope))));});`;
+
+if('serviceWorker' in navigator){
+  const blob=new Blob([SW],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url,{scope:'./'})
+    .then(()=>setTimeout(()=>showToast('📲 Offline mode active — works without internet!'),1500))
+    .catch(()=>{});
+}
+
+/* PWA install prompt */
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  document.getElementById('installBanner').classList.add('visible');
+});
+document.getElementById('installBtn').addEventListener('click',async()=>{
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  const{outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted')showToast('✅ HazCat installed! Find it on your home screen.');
+  document.getElementById('installBanner').classList.remove('visible');
+  deferredPrompt=null;
+});
+document.getElementById('dismissInstall').addEventListener('click',()=>{
+  document.getElementById('installBanner').classList.remove('visible');
+});
+
+/* PWA manifest */
+const mani={name:'HazCat',short_name:'HazCat',start_url:'.',display:'standalone',
+  background_color:'#1565C0',theme_color:'#1565C0',
+  description:'Hazard Category interactive field reference for oil & gas construction',
+  icons:[{src:`data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#1565C0"/><text x="256" y="330" font-size="260" font-family="Arial Black,sans-serif" font-weight="900" fill="white" text-anchor="middle">HC</text></svg>')}`,sizes:'512x512',type:'image/svg+xml'}]};
+const ml=document.createElement('link');
+ml.rel='manifest';
+ml.href='data:application/json,'+encodeURIComponent(JSON.stringify(mani));
+document.head.appendChild(ml);
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+buildHomeGrid();
+</script>
+</body>
+</html>
